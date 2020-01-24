@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group>
+
+        <item
+            android:id="@+id/roomDb"
+            android:icon="@drawable/dropdown"
+            android:title="Room DB" />
+
+        <item
+            android:id="@+id/fbLogin"
+            android:icon="@drawable/dropdown"
+            android:title="Work Manager" />
+
+        <item
+                android:id="@+id/location"
+                android:icon="@drawable/dropdown"
+                android:title="Current Location"/>
+
+        <item
+                android:id="@+id/logout"
+                android:icon="@drawable/dropdown"
+                android:title="Logout"/>
+
+    </group>
+
+</menu>

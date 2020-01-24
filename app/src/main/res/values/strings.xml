@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SampleArchitecture</string>
+    <string name="forget_password"><u>Forget Password</u></string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="add">Add</string>
+    <string name="delete_all">Delete All</string>
+    <string name="ok">OK</string>
+    <string name="salary">Salary :</string>
+    <string name="age">Age :</string>
+    <string name="name">Name :</string>
+    <string name="user_details">User Details</string>
+    <string name="cancel">Cancel</string>
+    <string name="periodic">Periodic Request</string>
+    <string name="firstNo">Enter First Number</string>
+    <string name="secNo">Enter Second Number</string>
+    <string name="add_user">Add User</string>
+    <string name="update_user">Update User</string>
+    <string name="update">Update</string>
+    <string name="salary_hint">Salary</string>
+    <string name="age_hint">Age</string>
+    <string name="name_hint">Name</string>
+</resources>

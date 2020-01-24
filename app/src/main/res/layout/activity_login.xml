@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="model"
+                type="com.architecture.ui.activity.login.LoginViewModel" />
+    </data>
+
+<!--    <ScrollView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="@dimen/txt_dimen_16"
+                tools:context=".ui.activity.login.LoginActivity">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/android_logo"
+                    app:layout_constraintBottom_toTopOf="@+id/tiluserName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiluserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/dimen_16"
+                    style="@style/OutlinedTextLabel"
+                    app:layout_constraintBottom_toTopOf="@+id/tilPassWord"
+                    app:layout_constraintVertical_chainStyle="packed">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:text="@={model.username}"
+                        android:textColor="@color/black"
+                        android:hint="@string/username"
+                        android:inputType="text"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassWord"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/OutlinedTextLabel"
+                    app:layout_constraintBottom_toTopOf="@+id/lblForgetPassWd">
+
+                <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/passWord"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:text="@={model.password}"
+                        android:textColor="@color/black"
+                        android:hint="@string/password"
+                        android:inputType="textPassword"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lblForgetPassWd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forget_password"
+                    android:textSize="@dimen/txt_dimen_16"
+                    android:textColor="@color/black"
+                    android:padding="@dimen/dimen_10"
+                    android:onClick="@{()->model.onForgetPassWd()}"
+                    app:layout_constraintBottom_toTopOf="@+id/btnAdd"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAdd"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimen_56"
+                    android:text="@string/login"
+                    android:onClick="@{()->model.onLoginClicked()}"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--    </ScrollView>-->
+
+</layout>

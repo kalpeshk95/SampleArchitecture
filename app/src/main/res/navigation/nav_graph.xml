@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/nav_graph"
+        app:startDestination="@id/menuFragment">
+
+    <fragment
+            android:id="@+id/menuFragment"
+            android:name="com.architecture.ui.fragments.menu.MenuFragment"
+            android:label="Menu" >
+        <action
+                android:id="@+id/action_menuFragment_to_roomFragment"
+                app:destination="@id/roomFragment" />
+        <action
+                android:id="@+id/action_menuFragment_to_workFragment"
+                app:destination="@id/workFragment" />
+    </fragment>
+
+    <fragment
+            android:id="@+id/roomFragment"
+            android:name="com.architecture.ui.fragments.room.RoomFragment"
+            android:label="Room Manager" />
+
+    <fragment
+            android:id="@+id/workFragment"
+            android:name="com.architecture.ui.fragments.workmanager.WorkFragment"
+            android:label="Work Manager" />
+</navigation>
