@@ -3,7 +3,7 @@ package com.architecture.ui.activity.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.architecture.R
 import com.architecture.databinding.ActivityLoginBinding
@@ -20,7 +20,7 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private val model by lazy { ViewModelProviders.of(this).get(LoginViewModel::class.java) }
+    private val model by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +40,6 @@ class LoginActivity : BaseActivity() {
         model.toastMsg.observe(this) {
             showToast(it)
         }
-
-//        model.liveDataMerger.observe(this,
-//            Observer {
-//                if (it) {
-//                    MainActivity.start(this@LoginActivity)
-//                    model.liveDataMerger.removeSource(model.login)
-//                }
-//            })
 
         model.login.observe(this) {
             if (it) {

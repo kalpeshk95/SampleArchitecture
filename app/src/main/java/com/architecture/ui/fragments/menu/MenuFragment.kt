@@ -1,11 +1,10 @@
 package com.architecture.ui.fragments.menu
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +15,7 @@ import com.architecture.ui.fragments.base.BaseFragment
 
 class MenuFragment : BaseFragment() {
 
-    private val model by lazy { ViewModelProviders.of(this).get(MenuViewModel::class.java) }
+    private val model by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
     private lateinit var binding : FragmentMenuBinding
     private lateinit var adapter : MenuAdapter
 

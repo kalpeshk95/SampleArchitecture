@@ -1,13 +1,13 @@
 package com.architecture.ui.fragments.room
 
 import android.app.Dialog
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,7 +22,7 @@ import com.architecture.utils.Log
 
 class RoomFragment : BaseFragment() {
 
-    private val model by lazy { ViewModelProviders.of(this).get(RoomViewModel::class.java) }
+    private val model by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
     private lateinit var binding : FragmentRoomBinding
     private lateinit var adapter: RoomAdapter
     private lateinit var dialog: Dialog
@@ -33,7 +33,6 @@ class RoomFragment : BaseFragment() {
     ): View? {
 
         binding = setFragmentLayout(R.layout.fragment_room, container)
-//        binding.model = model
 
 //        return inflater.inflate(R.layout.fragment_room, container, false)
         return binding.root
@@ -98,7 +97,6 @@ class RoomFragment : BaseFragment() {
                     }
                 }
             }
-
     }
 
     override fun initClick() {

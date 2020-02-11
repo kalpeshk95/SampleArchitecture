@@ -21,4 +21,7 @@
     <string name="salary_hint">Salary</string>
     <string name="age_hint">Age</string>
     <string name="name_hint">Name</string>
+    <string name="company">Company :</string>
+    <string name="phone_no">Phone No :</string>
+    <string name="id">ID :</string>
 </resources>

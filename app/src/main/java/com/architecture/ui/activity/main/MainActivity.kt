@@ -7,12 +7,11 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import com.architecture.R
 import com.architecture.databinding.ActivityMainBinding
 import com.architecture.ui.activity.base.BaseActivity
 import com.architecture.ui.activity.login.LoginActivity
-import kotlinx.android.synthetic.main.drawer_header.view.*
 
 class MainActivity : BaseActivity() {
 
@@ -38,7 +37,10 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
 
-        navController = Navigation.findNavController(this, R.id.fragment)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
+        navController = navHostFragment.navController
+
+//        navController = Navigation.findNavController(this, R.id.fragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             showHeader(destination.label?.toString())
         }

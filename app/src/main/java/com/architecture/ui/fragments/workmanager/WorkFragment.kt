@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 
 import com.architecture.R
@@ -14,7 +14,7 @@ import com.architecture.ui.workers.ThirdWorker
 
 class WorkFragment : BaseFragment() {
 
-    private val model by lazy { ViewModelProviders.of(this).get(WorkViewModel::class.java) }
+    private val model by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
     private lateinit var binding: FragmentWorkBinding
 
     override fun onCreateView(
@@ -36,6 +36,7 @@ class WorkFragment : BaseFragment() {
     }
 
     override fun initView() {
+
         model.result?.observe(this) {
             binding.resultText.text = "${it.outputData.getInt(ThirdWorker.KEY,0)}"
         }
