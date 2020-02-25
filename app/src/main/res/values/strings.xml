@@ -24,4 +24,6 @@
     <string name="company">Company :</string>
     <string name="phone_no">Phone No :</string>
     <string name="id">ID :</string>
+    <string name="camera_access_required">Camera access is required to display the camera preview.</string>
+    <string name="storage_access_required">Storage access is required to fetch photos, media and files.</string>
 </resources>

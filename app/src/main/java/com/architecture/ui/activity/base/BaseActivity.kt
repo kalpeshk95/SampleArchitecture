@@ -10,6 +10,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("DEPRECATION")
 abstract class BaseActivity : AppCompatActivity(), CoroutineScope {
 
     override val coroutineContext: CoroutineContext

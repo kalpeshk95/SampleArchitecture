@@ -1,18 +1,14 @@
 package com.architecture.utils
 
-import com.architecture.BuildConfig
-
 object Constant {
 
-//        var appVersion = BuildConfig.VERSION_NAME
-//
-//        val REQ_CODE_CAM_STORE = 100
-//        val REQ_CODE_CAMERA = 200
-//        val REQ_CODE_STORAGE = 300
-//        val REQ_CODE_GPS = 400
-//        val REQ_CODE_SETTING = 500
-//
-//        val REQUEST_CHECK_SETTINGS = 101
+        const val REQ_CODE_CAM_STORE = 100
+
+        const val CAM_STORE_PER_CODE = 101
+        const val CAMERA_PERMISSION_CODE = 201
+        const val STORAGE_PERMISSION_CODE = 301
+        const val SETTING_PERMISSION_CODE = 500
+
         const val TAG = "SampleDemo"
 
 }

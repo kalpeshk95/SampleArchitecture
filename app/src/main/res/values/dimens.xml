@@ -51,9 +51,11 @@
     <dimen name="dimen_49">49dp</dimen>
     <dimen name="dimen_50">50dp</dimen>
     <dimen name="dimen_56">56dp</dimen>
-
+    <dimen name="dimen_100">100dp</dimen>
+    <dimen name="dimen_180">180dp</dimen>
     <dimen name="dimen_200">200dp</dimen>
     <dimen name="dimen_250">250dp</dimen>
+    <dimen name="dimen_300">300dp</dimen>
 
 
 
@@ -107,6 +109,5 @@
     <dimen name="txt_dimen_48">48sp</dimen>
     <dimen name="txt_dimen_49">49sp</dimen>
     <dimen name="txt_dimen_50">50sp</dimen>
-    <dimen name="dimen_300">300dp</dimen>
 
 </resources>
