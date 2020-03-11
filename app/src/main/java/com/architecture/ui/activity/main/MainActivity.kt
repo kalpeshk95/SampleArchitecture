@@ -2,9 +2,7 @@ package com.architecture.ui.activity.main
 
 import android.Manifest
 import android.app.Activity
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -65,6 +63,7 @@ class MainActivity : BaseActivity() {
     }
 
     override fun initView() {
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -82,7 +81,7 @@ class MainActivity : BaseActivity() {
             when (it.itemId) {
                 R.id.roomDb -> openModule(R.id.roomFragment)
                 R.id.fbLogin -> openModule(R.id.workFragment)
-//                R.id.location -> openModule(R.id.location)
+//                R.id.location -> openModule(R.id.broadCastFragment)
                 R.id.logout -> LoginActivity.start(this@MainActivity)
             }
             true
@@ -339,6 +338,11 @@ class MainActivity : BaseActivity() {
             binding.header.backBtn.visible()
             setDrawerState(true)
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        closeDrawer()
     }
 
     private fun setDrawerState(enable: Boolean) {

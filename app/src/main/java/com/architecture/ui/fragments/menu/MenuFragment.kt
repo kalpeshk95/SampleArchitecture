@@ -16,8 +16,8 @@ import com.architecture.ui.fragments.base.BaseFragment
 class MenuFragment : BaseFragment() {
 
     private val model by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
-    private lateinit var binding : FragmentMenuBinding
-    private lateinit var adapter : MenuAdapter
+    private lateinit var binding: FragmentMenuBinding
+    private lateinit var adapter: MenuAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,25 +39,29 @@ class MenuFragment : BaseFragment() {
 
     override fun initView() {
         createAdapter()
+        if (model.listEmployee.value == null) model.listEmployee()
 
         model.listEmployee.observe(this) {
-                adapter = MenuAdapter(activity(), it)
-                binding.myAdapter = adapter
-            }
+            adapter = MenuAdapter(activity(), it)
+            binding.myAdapter = adapter
+            if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
+        }
 
         model.showLoader.observe(this) {
-                if(it) showLoading() else hideLoading()
-            }
+            if (it) showLoading() else hideLoading()
+        }
 
         model.toastMsg.observe(this) {
-                showToast(it)
-            }
-
-        if (model.listEmployee.value == null) model.listEmployee()
+            showToast(it)
+        }
     }
 
     override fun initClick() {
-
+        binding.swipeRefresh.setOnRefreshListener {
+            model.listEmployee()
+//            model.listEmployee = null
+//            model.showLoader = null
+        }
     }
 
     private fun createAdapter() {

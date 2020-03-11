@@ -6,6 +6,7 @@ import com.architecture.data.source.remote.RemoteRepository
 import com.architecture.data.wrapper.Employee
 import com.architecture.domain.MyApplication
 import com.architecture.ui.fragments.base.BaseViewModel
+import com.architecture.utils.Log
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -33,8 +34,9 @@ class MenuViewModel(@NotNull appContext: Application) : BaseViewModel(appContext
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                listEmployee.value = it
+                Log.i("List size : ${it.size}")
                 showLoader.value = false
+                listEmployee.value = it
             },{
                 showLoader.value = false
                 toastMsg.value = it.message
