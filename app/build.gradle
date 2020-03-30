@@ -68,11 +68,11 @@ dependencies {
     // Retrofit dependencies
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version" //GsonConverterFactory
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.4.1'
 
     //Rx Java
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.2' //RxJava2CallAdapterFactory
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.18'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.19'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
 
     // WorkManager
