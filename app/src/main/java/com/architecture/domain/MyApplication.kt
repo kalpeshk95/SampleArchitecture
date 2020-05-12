@@ -16,11 +16,7 @@ class MyApplication : Application() {
         component = DaggerMyComponent.builder().appModule(AppModule(this)).build()
 
         val receiver = MyReceiver()
-        val filter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            IntentFilter("android.net.wifi.WIFI_STATE_CHANGED")
-        } else {
-            TODO("VERSION.SDK_INT < LOLLIPOP_MR1")
-        }
+        val filter = IntentFilter("android.net.wifi.WIFI_STATE_CHANGED")
         registerReceiver(receiver, filter)
     }
 }

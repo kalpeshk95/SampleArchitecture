@@ -15,8 +15,8 @@ class MyReceiver : BroadcastReceiver() {
 //            Log.i( "Received data : $data")
 
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
-            val activeNetworkInfo = connectivityManager!!.activeNetworkInfo
-            if (activeNetworkInfo != null && activeNetworkInfo.isAvailable && activeNetworkInfo.isConnected) {
+            val activeNetworkInfo = connectivityManager!!.activeNetwork
+            if (activeNetworkInfo != null /*&& activeNetworkInfo.isAvailable && activeNetworkInfo.isConnected*/) {
                 Toast.makeText(context, "Online", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
