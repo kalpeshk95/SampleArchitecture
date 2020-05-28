@@ -1,15 +1,16 @@
 package com.architecture.data.source.sharedpref
 
-import android.content.Context
 import android.content.SharedPreferences
-
 import javax.inject.Inject
-import javax.inject.Named
 
 class SharedPreferencesRepository @Inject
-constructor(context: Context) : SharedPrefManager {
+constructor(/*context: Context*/) : SharedPrefManager {
 
-    private var sharedPreferences: SharedPreferences = SharedPref.getPref(context)
+//    private var sharedPreferences: SharedPreferences = SharedPref.getPref(context)
+
+    @Inject
+    lateinit var  sharedPreferences: SharedPreferences
+
     private val userName = "username"
     private val passWord = "password"
 

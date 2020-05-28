@@ -18,8 +18,6 @@ class MenuViewModel(@NotNull appContext: Application) : BaseViewModel(appContext
     @Inject
     lateinit var remoteRepository: RemoteRepository
 
-    private lateinit var disposable: Disposable
-
     var showLoader = MutableLiveData<Boolean>()
     var listEmployee = MutableLiveData<List<Employee>>()
 

@@ -37,7 +37,7 @@ class WorkFragment : BaseFragment() {
 
     override fun initView() {
 
-        model.result?.observe(this) {
+        model.result?.observe(viewLifecycleOwner) {
             binding.resultText.text = "${it.outputData.getInt(ThirdWorker.KEY,0)}"
         }
     }

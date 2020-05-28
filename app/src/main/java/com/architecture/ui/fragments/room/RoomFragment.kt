@@ -48,7 +48,7 @@ class RoomFragment : BaseFragment() {
 
         createAdapter()
 
-        model.usersList?.observe(this) {
+        model.usersList?.observe(viewLifecycleOwner) {
 
                 adapter = RoomAdapter(activity(), object : AdapterClickListener{
 
@@ -87,9 +87,9 @@ class RoomFragment : BaseFragment() {
 //                binding.recyclerList.adapter = adapter
             }
 
-        model.toastMsg.observe(this) { showToast(it) }
+        model.toastMsg.observe(viewLifecycleOwner) { showToast(it) }
 
-        model.flagDialog.observe(this) {
+        model.flagDialog.observe(viewLifecycleOwner) {
                 if (it) {
                     dialog.let { dialog ->
                         if (dialog.isShowing)

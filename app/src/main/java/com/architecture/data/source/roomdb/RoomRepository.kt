@@ -1,20 +1,22 @@
 package com.architecture.data.source.roomdb
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import com.architecture.data.wrapper.User
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class RoomRepository @Inject constructor(context: Context) : RoomManager {
+class RoomRepository @Inject constructor(/*context: Context*/) : RoomManager {
 
-    private var dao: LocalDao = LocalDatabase.getDatabase(context)!!.localDao()
+//    private var dao: LocalDao = LocalDatabase.getDatabase(context)!!.localDao()
+
+    @Inject
+    lateinit var dao : LocalDao
+
     var disposable: Disposable? = null
 
     override fun getAll(): LiveData<List<User>> {

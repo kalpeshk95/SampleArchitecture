@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.ui.fragments.base.BaseFragment
@@ -41,17 +40,17 @@ class MenuFragment : BaseFragment() {
         createAdapter()
         if (model.listEmployee.value == null) model.listEmployee()
 
-        model.listEmployee.observe(this) {
+        model.listEmployee.observe(viewLifecycleOwner) {
             adapter = MenuAdapter(activity(), it)
             binding.myAdapter = adapter
             if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
         }
 
-        model.showLoader.observe(this) {
+        model.showLoader.observe(viewLifecycleOwner) {
             if (it) showLoading() else hideLoading()
         }
 
-        model.toastMsg.observe(this) {
+        model.toastMsg.observe(viewLifecycleOwner) {
             showToast(it)
         }
     }
