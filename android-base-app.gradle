@@ -1,0 +1,54 @@
+import com.architecture.Dependencies as deps
+
+apply plugin: deps.BuildPlugins.androidApplication
+apply plugin: deps.BuildPlugins.kotlinAndroid
+apply plugin: deps.BuildPlugins.kapt
+
+android {
+
+    compileSdkVersion(deps.Android.compileSdkVersion)
+    buildToolsVersion "29.0.3"
+    defaultConfig {
+        applicationId = "com.architecture"
+        minSdkVersion deps.Android.minSdkVersion
+        targetSdkVersion deps.Android.targetSdkVersion
+        versionCode = 1
+        versionName = "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
+//    buildFeatures {
+//
+//        // Determines whether to generate a BuildConfig class.
+//        buildConfig = true
+//
+//        // Determines whether to support View Binding
+//        viewBinding = true
+//
+//        // Determines whether to support Data Binding.
+//        //dataBinding = false
+//    }
+}
+
+dependencies {
+    implementation(deps.kotlinStdLib)
+    implementation(deps.AndroidX.appcompat)
+    implementation(deps.AndroidX.coreKtx)
+    implementation(deps.AndroidX.constraintLayout)
+}
