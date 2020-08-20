@@ -9,11 +9,11 @@ android {
     compileSdkVersion(deps.Android.compileSdkVersion)
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId = "com.architecture"
+        applicationId = deps.Android.applicationId
         minSdkVersion deps.Android.minSdkVersion
         targetSdkVersion deps.Android.targetSdkVersion
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = deps.Android.versionCode
+        versionName = deps.Android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

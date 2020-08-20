@@ -2,7 +2,7 @@ package com.architecture
 
 object Dependencies {
 
-    const val kotlinVersion = "1.3.72"
+    const val kotlinVersion = "1.4.0"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
@@ -18,7 +18,7 @@ object Dependencies {
 
     object BuildPlugins {
 
-        private const val buildToolsVersion = "4.0.0"
+        private const val buildToolsVersion = "4.0.1"
 
         const val androidGradlePlugin = "com.android.tools.build:gradle:$buildToolsVersion"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
