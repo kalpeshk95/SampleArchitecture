@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import com.architecture.R
 import com.architecture.databinding.ActivityLoginBinding
-import com.architecture.ui.activity.main.MainActivity
 import com.architecture.ui.activity.base.BaseActivity
+import com.architecture.ui.activity.main.MainActivity
 
 class LoginActivity : BaseActivity() {
 
@@ -20,36 +20,50 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private val model by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
+    private val viewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_login)
-        binding = setLayout(R.layout.activity_login)
+//        binding = setLayout(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initView()
         initClick()
+        observer()
     }
 
     override fun initView() {
-        binding.model = model
-        model.setPrefValue()
-
-        model.toastMsg.observe(this) {
-            showToast(it)
-        }
-
-        model.login.observe(this) {
-            if (it) {
-                MainActivity.start(this@LoginActivity)
-                model.login.value = false
-            }
-        }
+        binding.edtUserName.setText(viewModel.getUserName())
+        binding.edtPassword.setText(viewModel.getPassword())
     }
 
     override fun initClick() {
+        binding.lblForgetPassword.setOnClickListener {
+            viewModel.onForgetPassWd()
+        }
 
+        binding.btnLogin.setOnClickListener {
+            viewModel.onLoginClicked(
+                binding.edtUserName.text.toString(),
+                binding.edtPassword.text.toString()
+            )
+        }
+    }
+
+    private fun observer() {
+        viewModel.toastMsg.observe(this) {
+            showToast(it)
+        }
+
+        viewModel.login.observe(this) {
+            if (it) {
+                MainActivity.start(this@LoginActivity)
+                viewModel.login.value = false
+            }
+        }
     }
 }

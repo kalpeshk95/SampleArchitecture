@@ -8,23 +8,26 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.ui.fragments.base.BaseFragment
 
 class MenuFragment : BaseFragment() {
 
-    private val model by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
-    private lateinit var binding: FragmentMenuBinding
-    private lateinit var adapter: MenuAdapter
+    private val viewModel by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
+
+    //    private lateinit var binding: FragmentMenuBinding
+    private lateinit var menuAdapter: MenuAdapter
+
+    private var _binding: FragmentMenuBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        binding = setFragmentLayout(R.layout.fragment_menu, container)
-        binding.model = model
+        val binding = FragmentMenuBinding.inflate(inflater, container, false)
+        _binding = binding
 
 //        return inflater.inflate(R.layout.fragment_menu, container, false)
         return binding.root
@@ -38,33 +41,44 @@ class MenuFragment : BaseFragment() {
 
     override fun initView() {
         createAdapter()
-        if (model.listEmployee.value == null) model.listEmployee()
+        if (viewModel.listEmployee.value == null) viewModel.listEmployee()
 
-        model.listEmployee.observe(viewLifecycleOwner) {
-            adapter = MenuAdapter(activity(), it)
-            binding.myAdapter = adapter
-            if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
+        viewModel.listEmployee.observe(viewLifecycleOwner) {
+
+            it?.let { employeeList ->
+                menuAdapter.setItems(employeeList)
+                if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
+            }
+
         }
 
-        model.showLoader.observe(viewLifecycleOwner) {
+        viewModel.showLoader.observe(viewLifecycleOwner) {
             if (it) showLoading() else hideLoading()
         }
 
-        model.toastMsg.observe(viewLifecycleOwner) {
+        viewModel.toastMsg.observe(viewLifecycleOwner) {
             showToast(it)
         }
     }
 
     override fun initClick() {
         binding.swipeRefresh.setOnRefreshListener {
-            model.listEmployee()
+            viewModel.listEmployee()
 //            model.listEmployee = null
 //            model.showLoader = null
         }
     }
 
     private fun createAdapter() {
-        val layoutManager = LinearLayoutManager(activity(), RecyclerView.VERTICAL, false)
-        binding.rvPosts.layoutManager = layoutManager
+        menuAdapter = MenuAdapter()
+        binding.rvPosts.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+            this.adapter = menuAdapter
+        }
+    }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
     }
 }

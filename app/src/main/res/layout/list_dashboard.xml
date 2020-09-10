@@ -1,105 +1,101 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?><!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto">-->
 
-    <data>
-        
-        <variable
-                name="model"
-                type="com.architecture.data.wrapper.Employee" />
+<!--    <data>-->
+<!--        -->
+<!--        <variable-->
+<!--                name="model"-->
+<!--                type="com.architecture.data.wrapper.Employee" />-->
 
-    </data>
+<!--    </data>-->
 
-    <com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_10"
+        app:cardCornerRadius="@dimen/dimen_5"
+        app:cardElevation="@dimen/dimen_3">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_10"
-            app:cardCornerRadius="@dimen/dimen_5"
-            app:cardElevation="@dimen/dimen_3">
+            android:padding="@dimen/dimen_10">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lbl_id"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_10">
+                android:padding="@dimen/dimen_5"
+                android:text="@string/id"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/lblID"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5"
-                    android:text="@string/id"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lbl_id"
+                app:layout_constraintTop_toTopOf="@+id/lbl_id" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvID"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(model.id)}"
-                    android:padding="@dimen/dimen_5"
-                    app:layout_constraintTop_toTopOf="@+id/lblID"
-                    app:layout_constraintStart_toEndOf="@+id/lblID"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lbl_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                android:text="@string/name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_id" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/lblName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5"
-                    android:text="@string/name"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblID" />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lbl_name"
+                app:layout_constraintTop_toTopOf="@+id/lbl_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(model.name)}"
-                    android:padding="@dimen/dimen_5"
-                    app:layout_constraintTop_toTopOf="@+id/lblName"
-                    app:layout_constraintStart_toEndOf="@+id/lblName"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lbl_company"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                android:text="@string/company"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/lblCompany"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5"
-                    android:text="@string/company"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblName" />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_company"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lbl_company"
+                app:layout_constraintTop_toTopOf="@+id/lbl_company" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvCompany"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(model.company)}"
-                    android:padding="@dimen/dimen_5"
-                    app:layout_constraintTop_toTopOf="@+id/lblCompany"
-                    app:layout_constraintStart_toEndOf="@+id/lblCompany"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/lbl_mob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                android:text="@string/phone_no"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lbl_company" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/lblMob"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dimen_5"
-                    android:text="@string/phone_no"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lblCompany" />
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_mob"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/lbl_mob"
+                app:layout_constraintTop_toTopOf="@+id/lbl_mob" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tvMob"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{String.valueOf(model.number)}"
-                    android:padding="@dimen/dimen_5"
-                    app:layout_constraintTop_toTopOf="@+id/lblMob"
-                    app:layout_constraintStart_toEndOf="@+id/lblMob"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
-
-</layout>
+        <!--</layout>-->

@@ -1,51 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?><!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto">-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/header"
-            android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_56"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backBtn"
+            android:layout_width="@dimen/dimen_56"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dimen_16"
+            android:src="@drawable/arrow_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/lblHeaderText"
+            android:layout_width="0dp"
             android:layout_height="@dimen/dimen_56"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            android:gravity="center|start"
+            android:paddingStart="@dimen/dimen_16"
+            android:paddingEnd="@dimen/dimen_16"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="@dimen/txt_dimen_20"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/backBtn"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/backBtn"
-                android:layout_width="@dimen/dimen_56"
-                android:layout_height="match_parent"
-                android:padding="@dimen/dimen_16"
-                android:src="@drawable/arrow_white"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/menu"
+            android:layout_width="@dimen/dimen_56"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="@dimen/dimen_16"
+            android:src="@drawable/burger_menu"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/lblHeaderText"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen_56"
-                android:text=""
-                android:textSize="@dimen/txt_dimen_20"
-                android:textColor="#FFFFFF"
-                android:paddingStart="@dimen/dimen_16"
-                android:paddingEnd="@dimen/dimen_16"
-                android:gravity="center|start"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/menu"
-                app:layout_constraintStart_toEndOf="@id/backBtn"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/menu"
-                android:layout_width="@dimen/dimen_56"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="@dimen/dimen_16"
-                android:src="@drawable/burger_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+        <!--</layout>-->

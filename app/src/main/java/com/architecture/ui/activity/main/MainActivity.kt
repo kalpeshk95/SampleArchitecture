@@ -2,7 +2,9 @@ package com.architecture.ui.activity.main
 
 import android.Manifest
 import android.app.Activity
-import android.content.*
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -11,7 +13,7 @@ import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
 import android.provider.Settings
-import android.view.*
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
@@ -56,7 +58,10 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main)
-        binding = setLayout(R.layout.activity_main)
+//        binding = setLayout(R.layout.activity_main)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         initView()
         initClick()

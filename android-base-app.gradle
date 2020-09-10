@@ -22,9 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
-    }
+//    dataBinding {
+//        enabled = true
+//    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -33,17 +33,17 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-//    buildFeatures {
+    buildFeatures {
 //
 //        // Determines whether to generate a BuildConfig class.
 //        buildConfig = true
 //
-//        // Determines whether to support View Binding
-//        viewBinding = true
+        // Determines whether to support View Binding
+        viewBinding = true
 //
 //        // Determines whether to support Data Binding.
 //        //dataBinding = false
-//    }
+    }
 }
 
 dependencies {

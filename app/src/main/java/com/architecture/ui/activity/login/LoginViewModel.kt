@@ -2,9 +2,9 @@ package com.architecture.ui.activity.login
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.architecture.ui.fragments.base.BaseViewModel
 import com.architecture.data.source.sharedpref.SharedPreferencesRepository
 import com.architecture.domain.MyApplication
+import com.architecture.ui.fragments.base.BaseViewModel
 import org.jetbrains.annotations.NotNull
 import javax.inject.Inject
 
@@ -25,29 +25,20 @@ class LoginViewModel(@NotNull appContext: Application) : BaseViewModel(appContex
         MyApplication.component.inject(this)
     }
 
-    fun setPrefValue() {
-//        username.set(sharedPrefRepository.getUserName())
-//        password.set(sharedPrefRepository.getPasswd())
+    fun onLoginClicked(username: String, password: String) {
 
-        username.value = sharedPrefRepository.getUserName()
-        password.value = sharedPrefRepository.getPasswd()
-    }
-
-    fun onLoginClicked() {
-
-        if (username.value?.length == 0 /*|| username.value != "root"*/) {
+        if (username.isEmpty() /*|| username.value != "root"*/) {
             toastMsg.value = "Please enter appropriate UserName"
             return
-        } else if (password.value?.length == 0 /*|| password.value != "root"*/) {
+        } else if (password.isEmpty() /*|| password.value != "root"*/) {
             toastMsg.value = "Please enter appropriate Password"
             return
-        } else if (!(username.value.equals(password.value))) {
+        } else if (username != password) {
             toastMsg.value = "UserName and password does not match"
             return
         }
-
-        sharedPrefRepository.putUserName(username.value!!)
-        sharedPrefRepository.putPassword(password.value!!)
+        sharedPrefRepository.putUserName(username)
+        sharedPrefRepository.putPassword(password)
 
         login.value = true
     }
@@ -55,6 +46,9 @@ class LoginViewModel(@NotNull appContext: Application) : BaseViewModel(appContex
     fun onForgetPassWd() {
         toastMsg.value = "UserName and password must be same...!"
     }
+
+    fun getUserName() = sharedPrefRepository.getUserName()
+    fun getPassword() = sharedPrefRepository.getPasswd()
 
 }
 

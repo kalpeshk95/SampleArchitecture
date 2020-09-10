@@ -1,7 +1,9 @@
 package com.architecture.ui.fragments.room
 
+import com.architecture.data.wrapper.User
+
 interface AdapterClickListener {
-    fun onViewClick(position: Int)
-    fun onEditClick(position: Int)
-    fun onDeleteClick(position: Int)
+    fun onViewClick(user: User)
+    fun onEditClick(user: User)
+    fun onDeleteClick(user: User)
 }

@@ -1,55 +1,55 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?><!--<layout-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto">-->
 
-    <data>
+<!--    <data>-->
 
-        <variable
-                name="model"
-                type="com.architecture.data.wrapper.User"/>
+<!--        <variable-->
+<!--                name="model"-->
+<!--                type="com.architecture.data.wrapper.User"/>-->
 
-    </data>
+<!--    </data>-->
 
-    <com.google.android.material.card.MaterialCardView
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_10"
+        app:cardCornerRadius="@dimen/dimen_5"
+        app:cardElevation="@dimen/dimen_3">
+
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_10"
-            app:cardCornerRadius="@dimen/dimen_5"
-            app:cardElevation="@dimen/dimen_3">
+            android:orientation="horizontal"
+            android:padding="@dimen/dimen_10">
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/dimen_10">
+                android:layout_gravity="center"
+                android:layout_weight="8"
+                android:paddingStart="@dimen/dimen_10"
+                android:paddingEnd="@dimen/dimen_10"
+                android:textSize="@dimen/txt_dimen_16" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="8"
-                    android:text="@{model.name}"
-                    android:textSize="@dimen/txt_dimen_16"
-                    android:paddingStart="@dimen/dimen_10"
-                    android:paddingEnd="@dimen/dimen_10"
-                    android:layout_gravity="center"/>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_menu_edit" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_edit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@android:drawable/ic_menu_edit"/>
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_delete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@android:drawable/ic_menu_delete" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_delete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:src="@android:drawable/ic_menu_delete"/>
+    </LinearLayout>
 
-        </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
 
-    </com.google.android.material.card.MaterialCardView>
-
-</layout>
+        <!--</layout>-->

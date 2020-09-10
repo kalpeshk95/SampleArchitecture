@@ -1,124 +1,121 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?><!--<layout-->
+<!--        xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--        xmlns:app="http://schemas.android.com/apk/res-auto">-->
 
-    <data>
+<!--    <data>-->
 
-        <variable
-                name="model"
-                type="com.architecture.ui.fragments.room.RoomViewModel" />
+<!--        <variable-->
+<!--                name="model"-->
+<!--                type="com.architecture.ui.fragments.room.RoomViewModel" />-->
 
-    </data>
+<!--    </data>-->
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="@dimen/dimen_300"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="@dimen/dimen_300"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_20"
+        android:background="#FFFFFF"
+        android:foregroundGravity="center">
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/headerText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dimen_20"
-            android:background="#FFFFFF"
-            android:foregroundGravity="center">
+            android:padding="@dimen/dimen_10"
+            android:text="@string/add_user"
+            android:textSize="@dimen/txt_dimen_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/headerText"
+    <View
+            android:id="@+id/header_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_2"
+            android:layout_marginBottom="@dimen/dimen_10"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@+id/headerText" />
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiLayout_first_name"
+            style="@style/OutlinedTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_view">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_user"
-                android:textSize="@dimen/txt_dimen_16"
-                android:padding="@dimen/dimen_10"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:hint="@string/name_hint"
+                android:imeOptions="actionNext" />
 
-        <View
-                android:id="@+id/header_view"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiLayout_last_name"
+            style="@style/OutlinedTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiLayout_first_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_age"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dimen_2"
-                android:background="@color/colorPrimaryDark"
-                android:layout_marginBottom="@dimen/dimen_10"
-                app:layout_constraintTop_toBottomOf="@+id/headerText"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiLayout_first_name"
-                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_10"
-                style="@style/OutlinedTextLabel"
-                app:layout_constraintTop_toBottomOf="@+id/header_view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:hint="@string/age_hint"
+                android:imeOptions="actionNext"
+                android:inputType="number" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@={model.name}"
-                    android:hint="@string/name_hint"
-                    android:imeOptions="actionNext"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiLayout_age"
+            style="@style/OutlinedTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dimen_10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiLayout_last_name">
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiLayout_last_name"
-                android:layout_width="0dp"
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_salary"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_10"
-                style="@style/OutlinedTextLabel"
-                app:layout_constraintTop_toBottomOf="@+id/tiLayout_first_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+                android:hint="@string/salary_hint"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_age"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/age_hint"
-                    android:text="@={model.age}"
-                    android:inputType="number"
-                    android:imeOptions="actionNext"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_add_update"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_56"
+            android:layout_margin="@dimen/dimen_10"
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tiLayout_age" />
 
-        <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiLayout_age"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/dimen_10"
-                style="@style/OutlinedTextLabel"
-                app:layout_constraintTop_toBottomOf="@+id/tiLayout_last_name"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dimen_56"
+            android:layout_margin="@dimen/dimen_10"
+            android:text="@string/cancel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_add_update"
+            app:layout_constraintTop_toBottomOf="@+id/tiLayout_age" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edt_salary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/salary_hint"
-                    android:text="@={model.salary}"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_add_update"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen_56"
-                android:text="@string/add"
-                android:layout_margin="@dimen/dimen_10"
-                app:layout_constraintTop_toBottomOf="@+id/tiLayout_age"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_cancel"
-                app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/dimen_56"
-                android:text="@string/cancel"
-                android:layout_margin="@dimen/dimen_10"
-                app:layout_constraintTop_toBottomOf="@+id/tiLayout_age"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_add_update"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</layout>
+        <!--</layout>-->

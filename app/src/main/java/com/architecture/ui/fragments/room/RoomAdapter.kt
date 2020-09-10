@@ -1,53 +1,50 @@
 package com.architecture.ui.fragments.room
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.databinding.DataBindingUtil
-import com.architecture.R
 import com.architecture.data.wrapper.User
 import com.architecture.databinding.ListRoomUsersBinding
 
 class RoomAdapter(
-    private val context: Context,
-    private val listener: AdapterClickListener,
-    private val list: List<User>
+    private val listener: AdapterClickListener
 ) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
 
-    inner class ViewHolder(var binding: ListRoomUsersBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    private val userList: MutableList<User> = mutableListOf()
 
-        init {
-            binding.root.setOnClickListener {
-                listener.onViewClick(adapterPosition)
-            }
-
-            binding.ivEdit.setOnClickListener {
-                listener.onEditClick(adapterPosition)
-            }
-
-            binding.ivDelete.setOnClickListener {
-                listener.onDeleteClick(adapterPosition)
-            }
-        }
-    }
+    class ViewHolder(var binding: ListRoomUsersBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = DataBindingUtil.inflate<ListRoomUsersBinding>(
-            LayoutInflater.from(context),
-            R.layout.list_room_users,
+        val binding = ListRoomUsersBinding.inflate(
+            LayoutInflater.from(parent.context),
             parent,
             false
         )
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = list[position]
-        holder.binding.model = item
-        holder.binding.executePendingBindings()
+    fun setItems(listItems: List<User>) {
+        userList.clear()
+        userList.addAll(listItems)
+        notifyDataSetChanged()
     }
 
-    override fun getItemCount() = list.size
+    override fun getItemCount() = userList.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = userList[position]
+        holder.binding.tvName.text = item.name
+        holder.binding.root.setOnClickListener {
+            listener.onViewClick(item)
+        }
+
+        holder.binding.ivEdit.setOnClickListener {
+            listener.onEditClick(item)
+        }
+
+        holder.binding.ivDelete.setOnClickListener {
+            listener.onDeleteClick(item)
+        }
+    }
 }

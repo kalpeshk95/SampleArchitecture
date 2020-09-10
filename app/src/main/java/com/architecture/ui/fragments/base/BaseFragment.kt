@@ -1,8 +1,5 @@
 package com.architecture.ui.fragments.base
 
-import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.architecture.ui.activity.main.MainActivity
 
@@ -13,14 +10,14 @@ abstract class BaseFragment : Fragment(){
 
     fun activity() = activity as MainActivity
 
-    fun <T : ViewDataBinding> setFragmentLayout(layout: Int, container: ViewGroup?): T {
-
-        return DataBindingUtil.inflate(layoutInflater, layout, container, false)
-    }
+//    fun <T : ViewDataBinding> setFragmentLayout(layout: Int, container: ViewGroup?): T {
+//
+//        return DataBindingUtil.inflate(layoutInflater, layout, container, false)
+//    }
 
 //    val navController = activity().navController
 
-    fun showToast(msg : String) = activity().showToast(msg)
+    fun showToast(msg: String) = activity().showToast(msg)
 
     fun showLoading() = activity().showLoading()
 
