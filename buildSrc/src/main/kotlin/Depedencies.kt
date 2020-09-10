@@ -39,14 +39,14 @@ object Dependencies {
     }
 
     object AndroidX {
-        const val coreKtx = "androidx.core:core-ktx:1.3.0"
-        const val appcompat = "androidx.appcompat:appcompat:1.1.0"
+        const val coreKtx = "androidx.core:core-ktx:1.3.1"
+        const val appcompat = "androidx.appcompat:appcompat:1.2.0"
         const val savedState = "androidx.savedstate:savedstate:1.0.0"
         const val recyclerView = "androidx.recyclerview:recyclerview:1.1.0"
         const val cardView = "androidx.cardview:cardview:1.0.0"
         const val constraintLayout = "androidx.constraintlayout:constraintlayout:1.1.3"
-        const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:1.1.0"
-        const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+        const val coordinatorLayout = "androidx.coordinatorlayout:coordinatorlayout:2.0.0"
+        const val swipeRefreshLayout = "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
         const val viewPager = "androidx.viewpager2:viewpager2:1.0.0"
         const val preference = "androidx.preference:preference-ktx:1.1.1"
         const val security = "androidx.security:security-crypto:1.0.0-beta01"
@@ -68,7 +68,7 @@ object Dependencies {
         }
 
         object Navigation {
-            private const val version = "2.2.2"
+            private const val version = "2.3.0"
             const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val navigationUi = "androidx.navigation:navigation-ui-ktx:$version"
         }
@@ -80,7 +80,7 @@ object Dependencies {
         }
 
         object Work {
-            private const val version = "2.3.4"
+            private const val version = "2.4.0"
             const val runtimeKtx = "androidx.work:work-runtime-ktx:$version"
             const val gcm = "androidx.work:work-gcm:$version"
             const val testing = "androidx.work:work-testing:$version"
