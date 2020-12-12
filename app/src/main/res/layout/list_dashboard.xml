@@ -1,14 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--        xmlns:app="http://schemas.android.com/apk/res-auto">-->
-
-<!--    <data>-->
-<!--        -->
-<!--        <variable-->
-<!--                name="model"-->
-<!--                type="com.architecture.wrapper.Employee" />-->
-
-<!--    </data>-->
-
+<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -97,5 +87,3 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>
-
-        <!--</layout>-->

@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
+import com.architecture.R
 import com.architecture.databinding.FragmentWorkBinding
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.ui.workers.ThirdWorker
 
-class WorkFragment : BaseFragment() {
+class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
     private val viewModel by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
 //    private lateinit var binding: FragmentWorkBinding
@@ -21,7 +21,7 @@ class WorkFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = FragmentWorkBinding.inflate(inflater, container, false)
         _binding = binding
@@ -38,9 +38,9 @@ class WorkFragment : BaseFragment() {
 
     override fun initView() {
 
-        viewModel.result?.observe(viewLifecycleOwner) {
+        viewModel.result?.observe(viewLifecycleOwner, {
             binding.resultText.text = "${it.outputData.getInt(ThirdWorker.KEY, 0)}"
-        }
+        })
     }
 
     override fun initClick() {

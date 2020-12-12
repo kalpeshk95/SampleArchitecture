@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
@@ -19,7 +18,7 @@ import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import com.architecture.wrapper.User
 
-class RoomFragment : BaseFragment(), AdapterClickListener {
+class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
 
@@ -33,7 +32,7 @@ class RoomFragment : BaseFragment(), AdapterClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = FragmentRoomBinding.inflate(inflater, container, false)
         _binding = binding
@@ -52,20 +51,20 @@ class RoomFragment : BaseFragment(), AdapterClickListener {
 
         createAdapter()
 
-        viewModel.usersList?.observe(viewLifecycleOwner) {
+        viewModel.usersList?.observe(viewLifecycleOwner, {
             roomAdapter.setItems(it)
-        }
+        })
 
-        viewModel.toastMsg.observe(viewLifecycleOwner) { showToast(it) }
+        viewModel.toastMsg.observe(viewLifecycleOwner, { showToast(it) })
 
-        viewModel.flagDialog.observe(viewLifecycleOwner) {
+        viewModel.flagDialog.observe(viewLifecycleOwner, {
             if (it) {
                 dialog.let { dialog ->
                     if (dialog.isShowing)
                         dialog.cancel()
                 }
             }
-        }
+        })
     }
 
     override fun initClick() {

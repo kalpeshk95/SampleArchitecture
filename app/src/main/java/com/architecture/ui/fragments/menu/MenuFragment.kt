@@ -5,15 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.network.Resource
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Log
 
-class MenuFragment : BaseFragment() {
+class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
     private val viewModel by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
 
@@ -26,7 +26,7 @@ class MenuFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         val binding = FragmentMenuBinding.inflate(inflater, container, false)
         _binding = binding
@@ -45,7 +45,7 @@ class MenuFragment : BaseFragment() {
         createAdapter()
         /*if (viewModel.listEmployee.value == null)*/ viewModel.listEmployee()
 
-        viewModel.listEmployee.observe(viewLifecycleOwner) {
+        viewModel.listEmployee.observe(viewLifecycleOwner, {
 
             when (it) {
 
@@ -63,34 +63,26 @@ class MenuFragment : BaseFragment() {
                 }
 
                 is Resource.Error -> {
-//                    viewModel.showLoader.value = false
+                    viewModel.showLoader.value = false
                     viewModel.toastMsg.value = "Something went wrong"
                     Log.e("Fetch employee ex : ${it.exception}")
                 }
 
             }
+        })
 
-//            it?.let { employeeList ->
-//                menuAdapter.setItems(employeeList)
-//                if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
-//            }
-
-        }
-
-        viewModel.showLoader.observe(viewLifecycleOwner) {
+        viewModel.showLoader.observe(viewLifecycleOwner, {
             if (it) showLoading() else hideLoading()
-        }
+        })
 
-        viewModel.toastMsg.observe(viewLifecycleOwner) {
+        viewModel.toastMsg.observe(viewLifecycleOwner, {
             showToast(it)
-        }
+        })
     }
 
     override fun initClick() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.listEmployee()
-//            model.listEmployee = null
-//            model.showLoader = null
         }
     }
 
