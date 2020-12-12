@@ -1,4 +1,4 @@
-package com.architecture.data.wrapper
+package com.architecture.wrapper
 
 data class Employee(
     val id: Int,

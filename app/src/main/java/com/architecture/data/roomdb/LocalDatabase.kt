@@ -1,8 +1,8 @@
-package com.architecture.data.source.roomdb
+package com.architecture.data.roomdb
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.architecture.data.wrapper.User
+import com.architecture.wrapper.User
 
 @Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class LocalDatabase : RoomDatabase() {

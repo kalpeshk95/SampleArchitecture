@@ -1,8 +1,8 @@
-package com.architecture.data.source.roomdb
+package com.architecture.data.roomdb
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.architecture.data.wrapper.User
+import com.architecture.wrapper.User
 
 @Dao
 interface LocalDao {

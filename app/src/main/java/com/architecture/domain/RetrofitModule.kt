@@ -1,7 +1,9 @@
 package com.architecture.domain
 
 import com.architecture.BuildConfig
-import com.architecture.data.source.remote.Network
+import com.architecture.app.AppExecutors
+import com.architecture.data.remote.Network
+import com.architecture.utils.LiveDataCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -12,7 +14,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
-class RetrofitModule internal constructor(){
+class RetrofitModule internal constructor() {
 
     @Provides
     @Singleton
@@ -22,11 +24,18 @@ class RetrofitModule internal constructor(){
 
     @Provides
     @Singleton
+    fun getAppExecutors(): AppExecutors {
+        return AppExecutors()
+    }
+
+    @Provides
+    @Singleton
     fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("http://www.mocky.io/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .client(okHttpClient)
             .build()
     }

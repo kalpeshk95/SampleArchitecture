@@ -11,4 +11,5 @@ object Constant {
 
         const val TAG = "SampleDemo"
 
+        const val QUERY_EXHAUSTED = "Query is exhausted."
 }

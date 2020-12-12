@@ -1,4 +1,4 @@
-package com.architecture.data.wrapper
+package com.architecture.wrapper
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

@@ -5,7 +5,7 @@
 <!--        -->
 <!--        <variable-->
 <!--                name="model"-->
-<!--                type="com.architecture.data.wrapper.Employee" />-->
+<!--                type="com.architecture.wrapper.Employee" />-->
 
 <!--    </data>-->
 

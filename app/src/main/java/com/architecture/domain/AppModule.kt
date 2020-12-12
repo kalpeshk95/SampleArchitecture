@@ -3,9 +3,10 @@ package com.architecture.domain
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.room.Room
-import com.architecture.data.source.roomdb.LocalDao
-import com.architecture.data.source.roomdb.LocalDatabase
-import com.architecture.data.source.sharedpref.SharedPref
+import com.architecture.app.MyApplication
+import com.architecture.data.roomdb.LocalDao
+import com.architecture.data.roomdb.LocalDatabase
+import com.architecture.data.sharedpref.SharedPref
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

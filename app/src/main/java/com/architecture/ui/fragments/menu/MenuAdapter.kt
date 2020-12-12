@@ -3,8 +3,8 @@ package com.architecture.ui.fragments.menu
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.data.wrapper.Employee
 import com.architecture.databinding.ListDashboardBinding
+import com.architecture.wrapper.Employee
 
 class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 

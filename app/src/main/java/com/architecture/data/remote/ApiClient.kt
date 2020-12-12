@@ -1,7 +1,6 @@
-package com.architecture.data.source.remote
+package com.architecture.data.remote
 
 import com.architecture.BuildConfig
-import okhttp3.CertificatePinner
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit

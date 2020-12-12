@@ -3,8 +3,8 @@ package com.architecture.ui.fragments.room
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.data.wrapper.User
 import com.architecture.databinding.ListRoomUsersBinding
+import com.architecture.wrapper.User
 
 class RoomAdapter(
     private val listener: AdapterClickListener

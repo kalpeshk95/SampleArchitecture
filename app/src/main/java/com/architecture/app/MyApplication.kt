@@ -1,10 +1,13 @@
-package com.architecture.domain
+package com.architecture.app
 
 import android.app.Application
 import android.content.IntentFilter
 import com.architecture.BuildConfig
 import com.architecture.core.logs.DebugTree
 import com.architecture.core.logs.ReleaseTree
+import com.architecture.domain.AppModule
+import com.architecture.domain.DaggerMyComponent
+import com.architecture.domain.MyComponent
 import com.architecture.ui.receiver.MyReceiver
 import timber.log.Timber
 

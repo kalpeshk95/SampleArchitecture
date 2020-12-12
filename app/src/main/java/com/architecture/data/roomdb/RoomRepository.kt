@@ -1,9 +1,9 @@
-package com.architecture.data.source.roomdb
+package com.architecture.data.roomdb
 
 import androidx.lifecycle.LiveData
-import com.architecture.data.wrapper.User
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
+import com.architecture.wrapper.User
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

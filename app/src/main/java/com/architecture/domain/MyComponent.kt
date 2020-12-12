@@ -1,6 +1,6 @@
 package com.architecture.domain
 
-import com.architecture.data.source.remote.RemoteRepository
+import com.architecture.data.remote.RemoteRepository
 import com.architecture.ui.activity.login.LoginViewModel
 import com.architecture.ui.fragments.menu.MenuViewModel
 import com.architecture.ui.fragments.room.RoomViewModel

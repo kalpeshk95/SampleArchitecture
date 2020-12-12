@@ -1,6 +1,6 @@
 package com.architecture.ui.fragments.room
 
-import com.architecture.data.wrapper.User
+import com.architecture.wrapper.User
 
 interface AdapterClickListener {
     fun onViewClick(user: User)

@@ -9,7 +9,9 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.architecture.databinding.FragmentMenuBinding
+import com.architecture.network.Resource
 import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.utils.Log
 
 class MenuFragment : BaseFragment() {
 
@@ -41,14 +43,37 @@ class MenuFragment : BaseFragment() {
 
     override fun initView() {
         createAdapter()
-        if (viewModel.listEmployee.value == null) viewModel.listEmployee()
+        /*if (viewModel.listEmployee.value == null)*/ viewModel.listEmployee()
 
         viewModel.listEmployee.observe(viewLifecycleOwner) {
 
-            it?.let { employeeList ->
-                menuAdapter.setItems(employeeList)
-                if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
+            when (it) {
+
+                is Resource.Success -> {
+                    it.data?.let { employeeList ->
+                        menuAdapter.setItems(employeeList)
+                        viewModel.showLoader.value = false
+                        if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing =
+                            false
+                    }
+                }
+
+                is Resource.Loading -> {
+//                    viewModel.showLoader.value = false
+                }
+
+                is Resource.Error -> {
+//                    viewModel.showLoader.value = false
+                    viewModel.toastMsg.value = "Something went wrong"
+                    Log.e("Fetch employee ex : ${it.exception}")
+                }
+
             }
+
+//            it?.let { employeeList ->
+//                menuAdapter.setItems(employeeList)
+//                if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing = false
+//            }
 
         }
 

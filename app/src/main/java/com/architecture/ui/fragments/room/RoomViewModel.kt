@@ -4,11 +4,11 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.architecture.data.source.roomdb.RoomManager
-import com.architecture.data.source.roomdb.RoomRepository
-import com.architecture.data.wrapper.User
-import com.architecture.domain.MyApplication
+import com.architecture.app.MyApplication
+import com.architecture.data.roomdb.RoomManager
+import com.architecture.data.roomdb.RoomRepository
 import com.architecture.ui.fragments.base.BaseViewModel
+import com.architecture.wrapper.User
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
 import javax.inject.Inject

@@ -2,8 +2,8 @@ package com.architecture.ui.activity.login
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import com.architecture.data.source.sharedpref.SharedPreferencesRepository
-import com.architecture.domain.MyApplication
+import com.architecture.app.MyApplication
+import com.architecture.data.sharedpref.SharedPreferencesRepository
 import com.architecture.ui.fragments.base.BaseViewModel
 import org.jetbrains.annotations.NotNull
 import javax.inject.Inject

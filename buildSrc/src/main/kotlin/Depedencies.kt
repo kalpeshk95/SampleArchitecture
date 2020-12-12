@@ -2,7 +2,7 @@ package com.architecture
 
 object Dependencies {
 
-    const val kotlinVersion = "1.4.0"
+    const val kotlinVersion = "1.4.20"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
@@ -18,7 +18,7 @@ object Dependencies {
 
     object BuildPlugins {
 
-        private const val buildToolsVersion = "4.0.1"
+        private const val buildToolsVersion = "4.1.1"
 
         const val androidGradlePlugin = "com.android.tools.build:gradle:$buildToolsVersion"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -68,7 +68,7 @@ object Dependencies {
         }
 
         object Navigation {
-            private const val version = "2.3.0"
+            private const val version = "2.3.1"
             const val navigationFragment = "androidx.navigation:navigation-fragment-ktx:$version"
             const val navigationUi = "androidx.navigation:navigation-ui-ktx:$version"
         }
@@ -102,7 +102,7 @@ object Dependencies {
     }
 
     object OkHttp {
-        private const val version = "4.7.2"
+        private const val version = "4.9.0"
         const val loggingInterceptor = "com.squareup.okhttp3:logging-interceptor:$version"
     }
 

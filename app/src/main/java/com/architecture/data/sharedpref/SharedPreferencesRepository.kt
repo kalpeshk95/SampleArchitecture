@@ -1,4 +1,4 @@
-package com.architecture.data.source.sharedpref
+package com.architecture.data.sharedpref
 
 import android.content.SharedPreferences
 import javax.inject.Inject

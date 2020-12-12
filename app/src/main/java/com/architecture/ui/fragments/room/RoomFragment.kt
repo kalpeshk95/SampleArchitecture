@@ -11,13 +11,13 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
-import com.architecture.data.wrapper.User
 import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
+import com.architecture.wrapper.User
 
 class RoomFragment : BaseFragment(), AdapterClickListener {
 
