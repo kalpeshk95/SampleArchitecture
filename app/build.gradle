@@ -12,6 +12,8 @@ dependencies {
 
     api project(":core")
 
+    implementation(deps.viewBindingHelper)
+
     //Timber
     implementation(deps.timber)
 

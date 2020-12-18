@@ -8,7 +8,7 @@ abstract class BaseFragment(layout: Int) : Fragment(layout) {
     abstract fun initView()
     abstract fun initClick()
 
-    fun activity() = activity as MainActivity
+    private fun activity() = activity as MainActivity
 
 //    fun <T : ViewDataBinding> setFragmentLayout(layout: Int, container: ViewGroup?): T {
 //

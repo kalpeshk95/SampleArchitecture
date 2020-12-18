@@ -4,6 +4,8 @@ object Dependencies {
 
     const val kotlinVersion = "1.4.20"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion"
+    const val viewBindingHelper =
+        "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:viewbinding:2.1.15"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
 

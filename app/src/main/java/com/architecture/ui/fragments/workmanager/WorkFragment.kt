@@ -9,25 +9,18 @@ import com.architecture.R
 import com.architecture.databinding.FragmentWorkBinding
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.ui.workers.ThirdWorker
+import com.crazylegend.viewbinding.viewBinding
 
 class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
     private val viewModel by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
-//    private lateinit var binding: FragmentWorkBinding
-
-    private var _binding: FragmentWorkBinding? = null
-    private val binding get() = _binding!!
+    private val binding by viewBinding(FragmentWorkBinding::bind)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val binding = FragmentWorkBinding.inflate(inflater, container, false)
-        _binding = binding
-
-//        return inflater.inflate(R.layout.fragment_work, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_work, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

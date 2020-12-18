@@ -12,27 +12,21 @@ import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.network.Resource
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Log
+import com.crazylegend.viewbinding.viewBinding
 
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
     private val viewModel by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
 
-    //    private lateinit var binding: FragmentMenuBinding
-    private lateinit var menuAdapter: MenuAdapter
+    private val binding by viewBinding(FragmentMenuBinding::bind)
 
-    private var _binding: FragmentMenuBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var menuAdapter: MenuAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val binding = FragmentMenuBinding.inflate(inflater, container, false)
-        _binding = binding
-
-//        return inflater.inflate(R.layout.fragment_menu, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_menu, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,10 +86,5 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             this.adapter = menuAdapter
         }
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 }

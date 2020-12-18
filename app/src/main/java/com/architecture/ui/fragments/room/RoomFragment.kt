@@ -17,28 +17,22 @@ import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import com.architecture.wrapper.User
+import com.crazylegend.viewbinding.viewBinding
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
     private val viewModel by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
 
-    //    private lateinit var binding : FragmentRoomBinding
+    private val binding by viewBinding(FragmentRoomBinding::bind)
+
     private lateinit var roomAdapter: RoomAdapter
     private lateinit var dialog: Dialog
-
-    private var _binding: FragmentRoomBinding? = null
-    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
-        val binding = FragmentRoomBinding.inflate(inflater, container, false)
-        _binding = binding
-
-//        return inflater.inflate(R.layout.fragment_room, container, false)
-        return binding.root
+        return inflater.inflate(R.layout.fragment_room, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -163,11 +157,6 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
 
     override fun onDeleteClick(user: User) {
         viewModel.delete(user)
-    }
-
-    override fun onDestroyView() {
-        _binding = null
-        super.onDestroyView()
     }
 
 }
