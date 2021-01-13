@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SampleArchitecture</string>
+<!--    <string name="app_name">SampleArchitecture</string>-->
     <string name="forget_password"><u>Forget Password</u></string>
     <string name="username">Username</string>
     <string name="password">Password</string>

@@ -16,12 +16,69 @@ android {
         versionName = deps.Android.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    buildTypes {
+
+    signingConfigs {
+
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            def props = new Properties()
+            def fileInputStream = new FileInputStream(file('keystore/sample.release.properties'))
+            props.load(fileInputStream)
+            fileInputStream.close()
+
+            storeFile = file(props['storeFile'])
+            storePassword = props['storePassword']
+            keyAlias = props['keyAlias']
+            keyPassword = props['keyPassword']
+
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+
+        debug {
+            storeFile file('keystore/sample.debug.keystore')
+            keyAlias 'androiddebugkey'
+            storePassword 'android'
+            keyPassword 'android'
+
+            v1SigningEnabled true
+            v2SigningEnabled true
         }
     }
+
+    buildTypes {
+        release {
+            resValue 'string', 'app_name', '"SampleArchitecture"'
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            resValue 'string', 'app_name', '"SampleArchitecture-dev"'
+            minifyEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "version"
+
+    productFlavors {
+
+        dev {
+            dimension "version"
+            applicationIdSuffix ".dev"
+            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+        }
+
+        prod {
+            dimension "version"
+            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
