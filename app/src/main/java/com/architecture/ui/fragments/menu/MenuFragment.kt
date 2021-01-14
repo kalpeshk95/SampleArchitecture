@@ -66,7 +66,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
         })
 
         viewModel.showLoader.observe(viewLifecycleOwner, {
-            if (it) showLoading() else hideLoading()
+            progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
         })
 
         viewModel.toastMsg.observe(viewLifecycleOwner, {

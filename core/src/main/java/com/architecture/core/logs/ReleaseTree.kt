@@ -46,15 +46,6 @@ class ReleaseTree : Timber.Tree() {
         }
     }
 
-    // no-op
-    private fun logToLogcat(priority: Int, tag: String?, message: String) {
-//        if (priority == Log.ASSERT) {
-//            Log.wtf(tag ?: UNKNOWN_TAG, message)
-//        } else {
-//            Log.println(priority, tag ?: UNKNOWN_TAG, message)
-//        }
-    }
-
     private fun logToCrashlyics(priority: Int, tag: String?, message: String) {
         if (priority == Log.ERROR) {
             //TODO Open this after configuring crashlytics

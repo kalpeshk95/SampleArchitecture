@@ -3,8 +3,8 @@ package com.architecture.ui.activity.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.architecture.R
 import com.architecture.databinding.ActivityLoginBinding
 import com.architecture.ui.activity.base.BaseActivity
@@ -55,15 +55,15 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun observer() {
-        viewModel.toastMsg.observe(this) {
+        viewModel.toastMsg.observe(this, Observer {
             showToast(it)
-        }
+        })
 
-        viewModel.login.observe(this) {
+        viewModel.login.observe(this, Observer {
             if (it) {
                 MainActivity.start(this@LoginActivity)
                 viewModel.login.value = false
             }
-        }
+        })
     }
 }

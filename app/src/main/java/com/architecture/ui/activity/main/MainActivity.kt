@@ -25,8 +25,11 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import com.architecture.R
 import com.architecture.databinding.ActivityMainBinding
+import com.architecture.ex.gone
+import com.architecture.ex.visible
 import com.architecture.ui.activity.base.BaseActivity
 import com.architecture.ui.activity.login.LoginActivity
+import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import com.google.android.material.snackbar.Snackbar
@@ -34,7 +37,7 @@ import kotlinx.android.synthetic.main.drawer_header.view.*
 import java.io.File
 import java.util.*
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
     companion object {
         fun start(context: Context) {
@@ -102,9 +105,16 @@ class MainActivity : BaseActivity() {
 
         binding.navDrawer.getHeaderView(0).findViewById<AppCompatImageView>(R.id.profilePic)
             .setOnClickListener {
-                if (hasPermissions(camStoragePerm)) startActivityForResult(getPickImageChooserIntent(), Constant.REQ_CODE_CAM_STORE)
+                if (hasPermissions(camStoragePerm)) startActivityForResult(
+                    getPickImageChooserIntent(),
+                    Constant.REQ_CODE_CAM_STORE
+                )
                 else requestCameraPermission()
             }
+    }
+
+    override fun setVisibility(visibility: Int) {
+        binding.progressBar.visibility = visibility
     }
 
     // region [ Runtime Permission ]
@@ -145,7 +155,12 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun View.showSnackbar(msgId: Int, length: Int, actionMessageId: Int, action: (View) -> Unit) {
+    private fun View.showSnackbar(
+        msgId: Int,
+        length: Int,
+        actionMessageId: Int,
+        action: (View) -> Unit
+    ) {
         val snackbar = Snackbar.make(this, context.getString(msgId), length)
         snackbar.setAction(context.getString(actionMessageId)) {
             action(this)
@@ -156,7 +171,8 @@ class MainActivity : BaseActivity() {
         ActivityCompat.requestPermissions(this, permissionsArray, requestCode)
     }
 
-    private fun rationalePermission(permission: String) = ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+    private fun rationalePermission(permission: String) =
+        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
 
     private fun goToSettings() {
 
@@ -191,15 +207,21 @@ class MainActivity : BaseActivity() {
         when (requestCode) {
             Constant.CAM_STORE_PER_CODE -> {
                 when {
-                    hasPermissions(camStoragePerm) -> startActivityForResult(getPickImageChooserIntent(), Constant.REQ_CODE_CAM_STORE)
+                    hasPermissions(camStoragePerm) -> startActivityForResult(
+                        getPickImageChooserIntent(),
+                        Constant.REQ_CODE_CAM_STORE
+                    )
                     !rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> goToSettings()
                 }
             }
             Constant.CAMERA_PERMISSION_CODE -> {
                 when {
                     hasPermissions(cameraPerm) -> {
-                        when{
-                            hasPermissions(camStoragePerm) -> startActivityForResult(getPickImageChooserIntent(), Constant.REQ_CODE_CAM_STORE)
+                        when {
+                            hasPermissions(camStoragePerm) -> startActivityForResult(
+                                getPickImageChooserIntent(),
+                                Constant.REQ_CODE_CAM_STORE
+                            )
                             else -> requestCameraPermission()
                         }
                     }
@@ -207,9 +229,12 @@ class MainActivity : BaseActivity() {
             }
             Constant.STORAGE_PERMISSION_CODE -> {
                 when {
-                    hasPermissions(storagePerm) ->{
-                        when{
-                            hasPermissions(camStoragePerm) -> startActivityForResult(getPickImageChooserIntent(), Constant.REQ_CODE_CAM_STORE)
+                    hasPermissions(storagePerm) -> {
+                        when {
+                            hasPermissions(camStoragePerm) -> startActivityForResult(
+                                getPickImageChooserIntent(),
+                                Constant.REQ_CODE_CAM_STORE
+                            )
                             else -> requestCameraPermission()
                         }
                     }
@@ -229,12 +254,17 @@ class MainActivity : BaseActivity() {
         }
 
         val allIntents = ArrayList<Intent>()
-        val uriPic = FileProvider.getUriForFile(this, applicationContext.packageName + ".provider", createImageFile())
+        val uriPic = FileProvider.getUriForFile(
+            this,
+            applicationContext.packageName + ".provider",
+            createImageFile()
+        )
 
         val captureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val listCam = packageManager.queryIntentActivities(captureIntent, 0)
         for (res in listCam) {
-            captureIntent.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
+            captureIntent.component =
+                ComponentName(res.activityInfo.packageName, res.activityInfo.name)
             captureIntent.setPackage(res.activityInfo.packageName)
             if (uriPic != null) {
                 captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPic)
@@ -247,7 +277,8 @@ class MainActivity : BaseActivity() {
         galleryIntent.type = "image/*"
         val listGallery = packageManager.queryIntentActivities(galleryIntent, 0)
         for (res in listGallery) {
-            galleryIntent.component = ComponentName(res.activityInfo.packageName, res.activityInfo.name)
+            galleryIntent.component =
+                ComponentName(res.activityInfo.packageName, res.activityInfo.name)
             galleryIntent.setPackage(res.activityInfo.packageName)
             allIntents.add(galleryIntent)
         }
@@ -263,7 +294,10 @@ class MainActivity : BaseActivity() {
         allIntents.remove(mainIntent)
 
         val chooserIntent = Intent.createChooser(mainIntent, "Select Source")
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, allIntents.toArray(arrayOfNulls<Parcelable>(allIntents.size)))
+        chooserIntent.putExtra(
+            Intent.EXTRA_INITIAL_INTENTS,
+            allIntents.toArray(arrayOfNulls<Parcelable>(allIntents.size))
+        )
 
         return chooserIntent
     }
@@ -309,9 +343,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun getPathFromURI(contentUri: Uri?): String? {
-        val proj = arrayOf(MediaStore.Audio.Media.DATA)
-        val cursor = contentResolver.query(contentUri!!, proj, null, null, null)
-        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+        val projection = arrayOf(MediaStore.Audio.Media._ID)
+        val cursor = contentResolver.query(contentUri!!, projection, null, null, null)
+        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
         cursor?.moveToFirst()
         val uri = cursor?.getString(columnIndex!!)
         cursor?.close()
