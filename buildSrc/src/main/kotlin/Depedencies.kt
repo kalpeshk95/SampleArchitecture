@@ -30,6 +30,7 @@ object Dependencies {
         const val androidApplication = "com.android.application"
         const val kotlinAndroid = "kotlin-android"
         const val kotlinAndroidExtensions = "kotlin-android-extensions"
+        const val kotlinParcelize = "kotlin-parcelize"
         const val kapt = "kotlin-kapt"
 
         const val androidLibrary = "com.android.library"

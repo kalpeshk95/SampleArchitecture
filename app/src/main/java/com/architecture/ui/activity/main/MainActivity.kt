@@ -33,7 +33,6 @@ import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.drawer_header.view.*
 import java.io.File
 import java.util.*
 
@@ -318,7 +317,8 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
             if (filePath != null) {
                 val selectedImage = BitmapFactory.decodeFile(filePath)
-                binding.drawerLayout.profilePic.setImageBitmap(selectedImage)
+                val profile: AppCompatImageView = binding.drawerLayout.getChildAt(R.id.profilePic) as AppCompatImageView
+                profile.setImageBitmap(selectedImage)
             }
         }
 

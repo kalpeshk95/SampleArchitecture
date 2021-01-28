@@ -52,14 +52,14 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
         }
 
         debug {
             resValue 'string', 'app_name', '"SampleArchitecture-dev"'
             minifyEnabled false
             shrinkResources false
-            signingConfig signingConfigs.debug
+//            signingConfig signingConfigs.debug
         }
     }
 
