@@ -13,11 +13,7 @@ import org.jetbrains.annotations.NotNull
 import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
 
-class MenuViewModel(@NotNull appContext: Application) : BaseViewModel(appContext) {
-
-    private val remoteRepository: RemoteRepository by inject(
-        RemoteRepository::class.java
-    )
+class MenuViewModel(private val remoteRepository: RemoteRepository) : BaseViewModel() {
 
     var showLoader = MutableLiveData<Boolean>()
 //    var listEmployee = MutableLiveData<List<Employee>>()

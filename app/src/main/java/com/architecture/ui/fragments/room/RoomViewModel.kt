@@ -12,11 +12,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
 import org.koin.java.KoinJavaComponent.inject
 
-class RoomViewModel(@NotNull appContext: Application) : BaseViewModel(appContext) {
-
-    private val roomRepository: RoomRepository by inject(
-        RoomRepository::class.java
-    )
+class RoomViewModel(private val roomRepository: RoomRepository) : BaseViewModel() {
 
     var name = MutableLiveData("")
     var age = MutableLiveData("")

@@ -12,7 +12,7 @@ import org.koin.dsl.module
 @ExperimentalCoroutinesApi
 val viewModelModule = module {
 
-    viewModel { BaseViewModel(get()) }
+    viewModel { BaseViewModel() }
     viewModel { LoginViewModel(get()) }
     viewModel { MenuViewModel(get()) }
     viewModel { RoomViewModel(get()) }

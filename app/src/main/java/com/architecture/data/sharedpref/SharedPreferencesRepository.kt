@@ -1,11 +1,9 @@
 package com.architecture.data.sharedpref
 
 import android.content.SharedPreferences
-import org.koin.java.KoinJavaComponent.inject
 
-class SharedPreferencesRepository(private val sharedPreferences: SharedPreferences) : SharedPrefManager {
-
-//    private val sharedPreferences: SharedPreferences by inject(SharedPreferences::class.java)
+class SharedPreferencesRepository(private val sharedPreferences: SharedPreferences) :
+    SharedPrefManager {
 
     private val userName = "username"
     private val passWord = "password"

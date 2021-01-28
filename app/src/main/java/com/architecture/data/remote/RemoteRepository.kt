@@ -12,9 +12,6 @@ import com.architecture.wrapper.Employee
 class RemoteRepository(private val appExecutors: AppExecutors, private val network: Network) :
     RemoteManager {
 
-//    private val appExecutors: AppExecutors by inject(AppExecutors::class.java)
-//    private val network: Network by inject(Network::class.java)
-
     override fun fetchEmpData(): LiveData<Resource<List<Employee>>> {
         return object : NetworkBoundResource<List<Employee>, List<Employee>>(appExecutors) {
 

@@ -11,8 +11,6 @@ import io.reactivex.schedulers.Schedulers
 
 class RoomRepository(private val dao: LocalDao) : RoomManager {
 
-//    private val dao: LocalDao by inject(LocalDao::class.java)
-
     var disposable: Disposable? = null
 
     override fun getAll(): LiveData<List<User>> {

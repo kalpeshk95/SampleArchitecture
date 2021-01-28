@@ -1,17 +1,14 @@
 package com.architecture.ui.activity.login
 
-import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.architecture.data.sharedpref.SharedPreferencesRepository
 import com.architecture.ui.fragments.base.BaseViewModel
-import org.jetbrains.annotations.NotNull
-import org.koin.java.KoinJavaComponent.inject
 
-class LoginViewModel(@NotNull appContext: Application) : BaseViewModel(appContext) {
+class LoginViewModel(private val sharedPrefRepository: SharedPreferencesRepository) : BaseViewModel() {
 
-    private val sharedPrefRepository: SharedPreferencesRepository by inject(
-        SharedPreferencesRepository::class.java
-    )
+//    private val sharedPrefRepository: SharedPreferencesRepository by inject(
+//        SharedPreferencesRepository::class.java
+//    )
 
 //    var username = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
 //    var password = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
