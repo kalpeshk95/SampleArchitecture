@@ -8,14 +8,10 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Inject
 
-class RoomRepository @Inject constructor(/*context: Context*/) : RoomManager {
+class RoomRepository(private val dao: LocalDao) : RoomManager {
 
-//    private var dao: LocalDao = LocalDatabase.getDatabase(context)!!.localDao()
-
-    @Inject
-    lateinit var dao : LocalDao
+//    private val dao: LocalDao by inject(LocalDao::class.java)
 
     var disposable: Disposable? = null
 
@@ -29,7 +25,7 @@ class RoomRepository @Inject constructor(/*context: Context*/) : RoomManager {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onSetMessage("User added successfully")
-            },{
+            }, {
                 callback.onSetMessage(it.message!!)
                 Log.i(Constant.TAG, "insert ex : ${it.message}")
             })
@@ -37,13 +33,13 @@ class RoomRepository @Inject constructor(/*context: Context*/) : RoomManager {
 
     override suspend fun update(callback: RoomManager.CallbackManager, user: User) {
 
-        Log.i(Constant.TAG , "User : $user")
+        Log.i(Constant.TAG, "User : $user")
         disposable = Completable.fromCallable { dao.update(user) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 callback.onSetMessage("User updated successfully")
-            },{
+            }, {
                 callback.onSetMessage(it.message!!)
                 Log.i(Constant.TAG, "update ex : ${it.message}")
             })

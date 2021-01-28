@@ -9,6 +9,7 @@ import com.architecture.R
 import com.architecture.databinding.ActivityLoginBinding
 import com.architecture.ui.activity.base.BaseActivity
 import com.architecture.ui.activity.main.MainActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class LoginActivity : BaseActivity() {
 
@@ -20,8 +21,9 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    private val viewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
+    private val viewModel by viewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)

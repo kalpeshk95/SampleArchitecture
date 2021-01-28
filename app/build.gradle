@@ -35,9 +35,15 @@ dependencies {
     // WorkManager
     implementation(deps.AndroidX.Work.runtimeKtx)
 
-    // Dagger 2
-    implementation(deps.Dagger.dagger)
-    kapt(deps.Dagger.daggerCompiler)
+//    // Dagger 2
+//    implementation(deps.Dagger.dagger)
+//    kapt(deps.Dagger.daggerCompiler)
+
+    //Koin
+    implementation(deps.Koin.fragment)
+    implementation(deps.Koin.scope)
+    implementation(deps.Koin.viewModel)
+    kapt(deps.Koin.gradlePlugin)
 
     // Retrofit dependencies
     implementation(deps.Retrofit.retrofit)

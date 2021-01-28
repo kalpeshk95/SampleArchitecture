@@ -9,8 +9,22 @@ import com.architecture.data.roomdb.LocalDatabase
 import com.architecture.data.sharedpref.SharedPref
 import dagger.Module
 import dagger.Provides
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
 import javax.inject.Singleton
 
+val appModule = module {
+
+    single<SharedPreferences> {
+        return@single getPref(androidContext())
+    }
+}
+
+fun getPref(context: Context) : SharedPreferences {
+    return SharedPref.getPref(context)
+}
+
+/*
 @Module(includes = [RetrofitModule::class])
 class AppModule internal constructor(var context: MyApplication){
 
@@ -41,4 +55,4 @@ class AppModule internal constructor(var context: MyApplication){
         return SharedPref.getPref(context)
     }
 
-}
+}*/

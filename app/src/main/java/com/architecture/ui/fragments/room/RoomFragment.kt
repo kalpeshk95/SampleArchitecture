@@ -14,16 +14,19 @@ import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
 import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.ui.fragments.menu.MenuViewModel
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
 import com.architecture.wrapper.User
 import com.crazylegend.viewbinding.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
 
     private val binding by viewBinding(FragmentRoomBinding::bind)
+    private val viewModel by viewModel<RoomViewModel>()
 
     private lateinit var roomAdapter: RoomAdapter
     private lateinit var dialog: Dialog

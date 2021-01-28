@@ -20,7 +20,7 @@ object Dependencies {
 
     object BuildPlugins {
 
-        private const val buildToolsVersion = "4.1.1"
+        private const val buildToolsVersion = "4.1.2"
 
         const val androidGradlePlugin = "com.android.tools.build:gradle:$buildToolsVersion"
         const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
@@ -95,6 +95,17 @@ object Dependencies {
         private const val version = "2.28"
         const val dagger = "com.google.dagger:dagger:$version"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:$version"
+    }
+
+    object Koin {
+        private const val version = "2.2.2"
+
+        //const val android = ""
+        const val fragment = "org.koin:koin-androidx-fragment:$version"
+        const val scope = "org.koin:koin-androidx-scope:$version"
+        const val viewModel = "org.koin:koin-androidx-viewmodel:$version"
+        const val androidxExt = "org.koin:koin-androidx-ext:$version"
+        const val gradlePlugin = "org.koin:koin-gradle-plugin:$version"
     }
 
     object Retrofit {

@@ -4,19 +4,19 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.architecture.app.MyApplication
 import com.architecture.data.roomdb.RoomManager
 import com.architecture.data.roomdb.RoomRepository
 import com.architecture.ui.fragments.base.BaseViewModel
 import com.architecture.wrapper.User
 import kotlinx.coroutines.launch
 import org.jetbrains.annotations.NotNull
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
 class RoomViewModel(@NotNull appContext: Application) : BaseViewModel(appContext) {
 
-    @Inject
-    lateinit var roomRepository: RoomRepository
+    private val roomRepository: RoomRepository by inject(
+        RoomRepository::class.java
+    )
 
     var name = MutableLiveData("")
     var age = MutableLiveData("")
@@ -27,19 +27,18 @@ class RoomViewModel(@NotNull appContext: Application) : BaseViewModel(appContext
     var flagDialog = MutableLiveData<Boolean>()
 
     init {
-        MyApplication.component.inject(this)
         usersList = roomRepository.getAll()
     }
 
     fun addUpdateUser(flag: Boolean) {
 
-        if(name.value?.length == 0){
+        if (name.value?.length == 0) {
             toastMsg.value = "First name is blank"
             return
         } else if (age.value?.length == 0) {
             toastMsg.value = "Age is blank"
             return
-        } else if (salary.value?.length == 0){
+        } else if (salary.value?.length == 0) {
             toastMsg.value = "Salary is blank"
             return
         } else {
@@ -50,9 +49,10 @@ class RoomViewModel(@NotNull appContext: Application) : BaseViewModel(appContext
 
             if (flag) {
                 viewModelScope.launch {
-                    roomRepository.insert(object : RoomManager.CallbackManager{
+                    roomRepository.insert(object : RoomManager.CallbackManager {
                         override fun onSetMessage(msg: String) {
-                            if (msg.contains("UNIQUE constraint failed")) toastMsg.value = "Record already found..."
+                            if (msg.contains("UNIQUE constraint failed")) toastMsg.value =
+                                "Record already found..."
                             else {
                                 toastMsg.value = msg
                                 flagDialog.value = true

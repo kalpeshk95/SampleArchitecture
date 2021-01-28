@@ -2,28 +2,18 @@ package com.architecture.data.remote
 
 import androidx.lifecycle.LiveData
 import com.architecture.app.AppExecutors
-import com.architecture.app.MyApplication
 import com.architecture.network.ApiResponse
 import com.architecture.network.ApiSuccessResponse
 import com.architecture.network.NetworkBoundResource
 import com.architecture.network.Resource
 import com.architecture.utils.AbsentLiveData
 import com.architecture.wrapper.Employee
-import javax.inject.Inject
 
-class RemoteRepository @Inject constructor() : RemoteManager {
+class RemoteRepository(private val appExecutors: AppExecutors, private val network: Network) :
+    RemoteManager {
 
-//    private val network = ApiClient.client!!.create(Network::class.java)
-
-    @Inject
-    lateinit var appExecutors: AppExecutors
-
-    @Inject
-    lateinit var network: Network
-
-    init {
-        MyApplication.component.inject(this)
-    }
+//    private val appExecutors: AppExecutors by inject(AppExecutors::class.java)
+//    private val network: Network by inject(Network::class.java)
 
     override fun fetchEmpData(): LiveData<Resource<List<Employee>>> {
         return object : NetworkBoundResource<List<Employee>, List<Employee>>(appExecutors) {

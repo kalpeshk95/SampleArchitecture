@@ -10,15 +10,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.network.Resource
+import com.architecture.ui.activity.login.LoginViewModel
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Log
 import com.crazylegend.viewbinding.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(MenuViewModel::class.java) }
 
     private val binding by viewBinding(FragmentMenuBinding::bind)
+    private val viewModel by viewModel<MenuViewModel>()
 
     private lateinit var menuAdapter: MenuAdapter
 

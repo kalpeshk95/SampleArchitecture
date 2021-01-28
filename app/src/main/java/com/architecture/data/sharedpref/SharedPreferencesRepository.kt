@@ -1,15 +1,11 @@
 package com.architecture.data.sharedpref
 
 import android.content.SharedPreferences
-import javax.inject.Inject
+import org.koin.java.KoinJavaComponent.inject
 
-class SharedPreferencesRepository @Inject
-constructor(/*context: Context*/) : SharedPrefManager {
+class SharedPreferencesRepository(private val sharedPreferences: SharedPreferences) : SharedPrefManager {
 
-//    private var sharedPreferences: SharedPreferences = SharedPref.getPref(context)
-
-    @Inject
-    lateinit var  sharedPreferences: SharedPreferences
+//    private val sharedPreferences: SharedPreferences by inject(SharedPreferences::class.java)
 
     private val userName = "username"
     private val passWord = "password"

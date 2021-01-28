@@ -8,13 +8,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.architecture.R
 import com.architecture.databinding.FragmentWorkBinding
 import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.ui.fragments.room.RoomViewModel
 import com.architecture.ui.workers.ThirdWorker
 import com.crazylegend.viewbinding.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
-    private val viewModel by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
+//    private val viewModel by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
     private val binding by viewBinding(FragmentWorkBinding::bind)
+    private val viewModel by viewModel<WorkViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

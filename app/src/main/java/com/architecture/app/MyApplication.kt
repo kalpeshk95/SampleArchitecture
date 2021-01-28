@@ -5,28 +5,44 @@ import android.content.IntentFilter
 import com.architecture.BuildConfig
 import com.architecture.core.logs.DebugTree
 import com.architecture.core.logs.ReleaseTree
-import com.architecture.domain.AppModule
-import com.architecture.domain.DaggerMyComponent
-import com.architecture.domain.MyComponent
+import com.architecture.domain.*
 import com.architecture.ui.receiver.MyReceiver
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+import org.koin.core.logger.Level
 import timber.log.Timber
 
 class MyApplication : Application() {
 
-    companion object{
-        lateinit var component: MyComponent
-    }
-
     override fun onCreate() {
         super.onCreate()
-        init()
-        component = DaggerMyComponent.builder().appModule(AppModule(this)).build()
-    }
-
-    private fun init() {
-
         setupTimber()
         setUpReceiver()
+        setupDI()
+    }
+
+    private fun setupDI() {
+
+        startKoin {
+
+            if (BuildConfig.DEBUG) {
+                androidLogger(Level.ERROR)
+            }
+
+            androidContext(this@MyApplication)
+
+            modules(
+                listOf(
+                    preferencesModule,
+                    appModule,
+                    repoModule,
+                    retrofitModule,
+                    databaseModule,
+                    viewModelModule
+                )
+            )
+        }
     }
 
     private fun setUpReceiver() {

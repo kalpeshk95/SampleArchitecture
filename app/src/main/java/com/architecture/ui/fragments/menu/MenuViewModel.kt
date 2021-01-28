@@ -3,7 +3,6 @@ package com.architecture.ui.fragments.menu
 import android.app.Application
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import com.architecture.app.MyApplication
 import com.architecture.data.remote.RemoteRepository
 import com.architecture.network.Resource
 import com.architecture.ui.fragments.base.BaseViewModel
@@ -11,22 +10,19 @@ import com.architecture.utils.Constant
 import com.architecture.utils.EmptyDataException
 import com.architecture.wrapper.Employee
 import org.jetbrains.annotations.NotNull
+import org.koin.java.KoinJavaComponent.inject
 import timber.log.Timber
-import javax.inject.Inject
 
 class MenuViewModel(@NotNull appContext: Application) : BaseViewModel(appContext) {
 
-    @Inject
-    lateinit var remoteRepository: RemoteRepository
+    private val remoteRepository: RemoteRepository by inject(
+        RemoteRepository::class.java
+    )
 
     var showLoader = MutableLiveData<Boolean>()
 //    var listEmployee = MutableLiveData<List<Employee>>()
 
     val listEmployee = MediatorLiveData<Resource<List<Employee>>>()
-
-    init {
-        MyApplication.component.inject(this)
-    }
 
     fun listEmployee() {
         showLoader.value = true
