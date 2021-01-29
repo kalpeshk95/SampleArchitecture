@@ -17,6 +17,8 @@ dependencies {
     //Timber
     implementation(deps.timber)
 
+    implementation(deps.powerpermission)
+
     // Navigation
     implementation(deps.AndroidX.Navigation.navigationFragment)
     implementation(deps.AndroidX.Navigation.navigationUi)

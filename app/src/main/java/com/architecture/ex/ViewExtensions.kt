@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,6 +19,18 @@ fun View.visible() {
 
 fun View.invisible() {
     this.visibility = View.INVISIBLE
+}
+
+fun View.showSnackbar(
+    msgId: Int,
+    length: Int,
+    actionMessageId: Int,
+    action: (View) -> Unit
+) {
+    val snackbar = Snackbar.make(this, context.getString(msgId), length)
+    snackbar.setAction(context.getString(actionMessageId)) {
+        action(this)
+    }.show()
 }
 
 fun View.hideKeyboard() {

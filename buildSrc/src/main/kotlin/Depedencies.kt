@@ -8,6 +8,7 @@ object Dependencies {
         "com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:viewbinding:2.1.15"
 
     const val timber = "com.jakewharton.timber:timber:4.7.1"
+    const val powerpermission = "com.qifan.powerpermission:powerpermission:1.4.0"
 
     object Android {
         val minSdkVersion = 23

@@ -1,22 +1,16 @@
 package com.architecture.ui.activity.main
 
-import android.Manifest
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.os.Parcelable
 import android.provider.MediaStore
-import android.provider.Settings
-import android.view.View
-import androidx.appcompat.app.AlertDialog
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatImageView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -32,7 +26,6 @@ import com.architecture.ui.activity.login.LoginActivity
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import com.architecture.utils.Log
-import com.google.android.material.snackbar.Snackbar
 import java.io.File
 import java.util.*
 
@@ -45,14 +38,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         }
     }
 
-    private val cameraPerm = arrayOf(Manifest.permission.CAMERA)
-    private val storagePerm = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
-    private val camStoragePerm = cameraPerm + storagePerm
-
-    private val sdCardPath = Environment.getExternalStorageDirectory().absolutePath + "/SampleArch/"
+    private lateinit var sdCardPath: String
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -64,6 +50,8 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        sdCardPath = getExternalFilesDir(null)?.absolutePath + "/SampleArch"
 
         initView()
         initClick()
@@ -78,6 +66,14 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 //        navController = Navigation.findNavController(this, R.id.fragment)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             showHeader(destination.label?.toString())
+        }
+
+        val root = createImageFile()
+        if (root.exists()) {
+            val selectedImage = BitmapFactory.decodeFile(root.path)
+            val profile: AppCompatImageView =
+                binding.navDrawer.getHeaderView(0).findViewById(R.id.profilePic)
+            profile.setImageBitmap(selectedImage)
         }
     }
 
@@ -104,11 +100,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
         binding.navDrawer.getHeaderView(0).findViewById<AppCompatImageView>(R.id.profilePic)
             .setOnClickListener {
-                if (hasPermissions(camStoragePerm)) startActivityForResult(
-                    getPickImageChooserIntent(),
-                    Constant.REQ_CODE_CAM_STORE
-                )
-                else requestCameraPermission()
+                resultImageChooser.launch(getPickImageChooserIntent())
             }
     }
 
@@ -116,135 +108,8 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         binding.progressBar.visibility = visibility
     }
 
-    // region [ Runtime Permission ]
-
-    private fun hasPermissions(permissions: Array<String>): Boolean {
-        for (permission in permissions) {
-            if (ActivityCompat.checkSelfPermission(this, permission) !=
-                PackageManager.PERMISSION_GRANTED
-            ) {
-                return false
-            }
-        }
-        return true
-    }
-
-    private fun requestCameraPermission() {
-
-        when {
-            rationalePermission(Manifest.permission.CAMERA) ->
-                binding.mainLayout.showSnackbar(
-                    R.string.camera_access_required,
-                    Snackbar.LENGTH_INDEFINITE,
-                    R.string.ok
-                ) {
-
-                    permissionsCompat(cameraPerm, Constant.CAMERA_PERMISSION_CODE)
-                }
-            rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) ->
-                binding.mainLayout.showSnackbar(
-                    R.string.storage_access_required,
-                    Snackbar.LENGTH_INDEFINITE,
-                    R.string.ok
-                ) {
-
-                    permissionsCompat(storagePerm, Constant.STORAGE_PERMISSION_CODE)
-                }
-            else -> permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
-        }
-    }
-
-    private fun View.showSnackbar(
-        msgId: Int,
-        length: Int,
-        actionMessageId: Int,
-        action: (View) -> Unit
-    ) {
-        val snackbar = Snackbar.make(this, context.getString(msgId), length)
-        snackbar.setAction(context.getString(actionMessageId)) {
-            action(this)
-        }.show()
-    }
-
-    private fun permissionsCompat(permissionsArray: Array<String>, requestCode: Int) {
-        ActivityCompat.requestPermissions(this, permissionsArray, requestCode)
-    }
-
-    private fun rationalePermission(permission: String) =
-        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
-
-    private fun goToSettings() {
-
-        val alertDialogBuilder = AlertDialog.Builder(this)
-        alertDialogBuilder.setMessage("Your application needs runtime permissions, please add manually")
-        alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
-            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-            val uri = Uri.fromParts("package", packageName, null)
-            intent.data = uri
-            startActivityForResult(intent, Constant.SETTING_PERMISSION_CODE)
-        }
-        alertDialogBuilder.setNegativeButton(
-            "No"
-        ) { dialog, _ -> dialog.dismiss() }
-        alertDialogBuilder.setCancelable(false)
-        val alertDialog = alertDialogBuilder.create()
-        alertDialog.show()
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        Log.i("onRequestPermissionsResult requestCode : $requestCode")
-
-        for (i in permissions)
-            Log.i("permissions : $i")
-
-        when (requestCode) {
-            Constant.CAM_STORE_PER_CODE -> {
-                when {
-                    hasPermissions(camStoragePerm) -> startActivityForResult(
-                        getPickImageChooserIntent(),
-                        Constant.REQ_CODE_CAM_STORE
-                    )
-                    !rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> goToSettings()
-                }
-            }
-            Constant.CAMERA_PERMISSION_CODE -> {
-                when {
-                    hasPermissions(cameraPerm) -> {
-                        when {
-                            hasPermissions(camStoragePerm) -> startActivityForResult(
-                                getPickImageChooserIntent(),
-                                Constant.REQ_CODE_CAM_STORE
-                            )
-                            else -> requestCameraPermission()
-                        }
-                    }
-                }
-            }
-            Constant.STORAGE_PERMISSION_CODE -> {
-                when {
-                    hasPermissions(storagePerm) -> {
-                        when {
-                            hasPermissions(camStoragePerm) -> startActivityForResult(
-                                getPickImageChooserIntent(),
-                                Constant.REQ_CODE_CAM_STORE
-                            )
-                            else -> requestCameraPermission()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // endregion
-
     // region [ File Chooser ]
+
     private fun getPickImageChooserIntent(): Intent? {
 
         val root = File(sdCardPath)
@@ -305,27 +170,20 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         return File("$sdCardPath/profile.jpg")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    var resultImageChooser =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val filePath = getImageFilePath(result.data)
+                Log.i("File Path : $filePath")
 
-        Log.i("onActivityResult requestCode : $requestCode\nresultCode : $resultCode\ndata : $data")
-
-        if (requestCode == Constant.REQ_CODE_CAM_STORE && resultCode == Activity.RESULT_OK) {
-
-            val filePath = getImageFilePath(data)
-            Log.i("File Path : $filePath")
-
-            if (filePath != null) {
-                val selectedImage = BitmapFactory.decodeFile(filePath)
-                val profile: AppCompatImageView = binding.drawerLayout.getChildAt(R.id.profilePic) as AppCompatImageView
-                profile.setImageBitmap(selectedImage)
+                if (filePath != null) {
+                    val selectedImage = BitmapFactory.decodeFile(filePath)
+                    val profile: AppCompatImageView =
+                        binding.navDrawer.getHeaderView(0).findViewById(R.id.profilePic)
+                    profile.setImageBitmap(selectedImage)
+                }
             }
         }
-
-        if (requestCode == Constant.SETTING_PERMISSION_CODE && hasPermissions(camStoragePerm)) {
-            startActivityForResult(getPickImageChooserIntent(), Constant.REQ_CODE_CAM_STORE)
-        }
-    }
 
     private fun getImageFilePath(data: Intent?): String? {
         val isCamera = data?.data == null
@@ -393,4 +251,5 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
     }
 
     // endregion
+
 }
