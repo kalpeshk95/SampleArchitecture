@@ -21,15 +21,12 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-//    private val viewModel by lazy { ViewModelProvider(this).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
     private val viewModel by viewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_login)
-//        binding = setLayout(R.layout.activity_login)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

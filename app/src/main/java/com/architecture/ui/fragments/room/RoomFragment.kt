@@ -23,8 +23,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
-//    private val viewModel by lazy { ViewModelProvider(this).get(RoomViewModel::class.java) }
-
     private val binding by viewBinding(FragmentRoomBinding::bind)
     private val viewModel by viewModel<RoomViewModel>()
 

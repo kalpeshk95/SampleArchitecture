@@ -16,7 +16,6 @@ import timber.log.Timber
 class MenuViewModel(private val remoteRepository: RemoteRepository) : BaseViewModel() {
 
     var showLoader = MutableLiveData<Boolean>()
-//    var listEmployee = MutableLiveData<List<Employee>>()
 
     val listEmployee = MediatorLiveData<Resource<List<Employee>>>()
 
@@ -49,22 +48,5 @@ class MenuViewModel(private val remoteRepository: RemoteRepository) : BaseViewMo
                 listEmployee.removeSource(employeeSource)
             }
         }
-
-//        disposable = remoteRepository.fetchEmpData()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                Log.i("List size : ${it.size}")
-//                showLoader.value = false
-//                listEmployee.value = it
-//            },{
-//                showLoader.value = false
-//                toastMsg.value = it.message
-//            })
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-//        disposable.dispose()
     }
 }

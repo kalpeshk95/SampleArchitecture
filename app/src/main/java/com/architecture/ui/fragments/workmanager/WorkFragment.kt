@@ -15,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
-//    private val viewModel by lazy { ViewModelProvider(this).get(WorkViewModel::class.java) }
     private val binding by viewBinding(FragmentWorkBinding::bind)
     private val viewModel by viewModel<WorkViewModel>()
 

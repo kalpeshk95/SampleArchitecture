@@ -6,10 +6,6 @@ import com.architecture.ui.fragments.base.BaseViewModel
 
 class LoginViewModel(private val sharedPrefRepository: SharedPreferencesRepository) : BaseViewModel() {
 
-//    private val sharedPrefRepository: SharedPreferencesRepository by inject(
-//        SharedPreferencesRepository::class.java
-//    )
-
 //    var username = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
 //    var password = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
 

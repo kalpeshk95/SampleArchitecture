@@ -16,8 +16,6 @@ abstract class BaseFragment(layout: Int) : Fragment(layout) {
 //        return DataBindingUtil.inflate(layoutInflater, layout, container, false)
 //    }
 
-//    val navController = activity().navController
-
     fun showToast(msg: String) = activity().showToast(msg)
 
     var progressBarVisibility: ShowProgressBar? = null
@@ -34,21 +32,5 @@ abstract class BaseFragment(layout: Int) : Fragment(layout) {
     interface ShowProgressBar {
         fun setVisibility(visibility: Int)
     }
-
-//    fun goToSettings() = activity().goToSettings()
-//
-//    fun finish() = activity().finish()
-//
-//    fun hasPermissions(permissions: Array<String>): Boolean {
-//        for (permission in permissions) {
-//            if (ActivityCompat.checkSelfPermission(requireContext(), permission) !=
-//                PackageManager.PERMISSION_GRANTED) {
-//                return false
-//            }
-//        }
-//        return true
-//    }
-//
-//    fun backPress() = activity().onBackPressed()
 
 }

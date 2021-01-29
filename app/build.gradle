@@ -37,10 +37,6 @@ dependencies {
     // WorkManager
     implementation(deps.AndroidX.Work.runtimeKtx)
 
-//    // Dagger 2
-//    implementation(deps.Dagger.dagger)
-//    kapt(deps.Dagger.daggerCompiler)
-
     //Koin
     implementation(deps.Koin.fragment)
     implementation(deps.Koin.scope)

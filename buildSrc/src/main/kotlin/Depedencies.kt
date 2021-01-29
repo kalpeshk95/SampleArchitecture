@@ -92,16 +92,8 @@ object Dependencies {
 
     }
 
-    object Dagger {
-        private const val version = "2.28"
-        const val dagger = "com.google.dagger:dagger:$version"
-        const val daggerCompiler = "com.google.dagger:dagger-compiler:$version"
-    }
-
     object Koin {
         private const val version = "2.2.2"
-
-        //const val android = ""
         const val fragment = "org.koin:koin-androidx-fragment:$version"
         const val scope = "org.koin:koin-androidx-scope:$version"
         const val viewModel = "org.koin:koin-androidx-viewmodel:$version"

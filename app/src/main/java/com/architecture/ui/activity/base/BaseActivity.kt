@@ -24,6 +24,7 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope {
         const val RESULT_CODE: Int = 999
 
         val REQUESTED_PERMISSIONS = arrayOf(
+            Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -70,8 +71,6 @@ abstract class BaseActivity : AppCompatActivity(), CoroutineScope {
 
     private fun doPermissionAllGrantedWork(granted: List<Permission>) {
         Timber.d("doPermissionAllGrantedWork: $granted")
-
-        initView()
     }
 
     private fun doPermissionReasonWork(rational: List<Permission>) {

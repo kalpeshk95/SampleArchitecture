@@ -8,13 +8,4 @@ open class BaseViewModel : ViewModel() {
 
     var toastMsg = MutableLiveData<String>()
 
-    lateinit var disposable: Disposable
-
-//    var myJob: Job? = null
-//
-//    override fun onCleared() {
-//        super.onCleared()
-//        myJob?.cancel()
-//    }
-
 }

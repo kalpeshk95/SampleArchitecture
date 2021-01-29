@@ -45,8 +45,6 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-//        binding = setLayout(R.layout.activity_main)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -170,7 +168,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         return File("$sdCardPath/profile.jpg")
     }
 
-    var resultImageChooser =
+    private var resultImageChooser =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val filePath = getImageFilePath(result.data)

@@ -11,8 +11,6 @@ class MyReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
-//            val data = intent.getStringExtra("DATA")
-//            Log.i( "Received data : $data")
 
             val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
             val activeNetworkInfo = connectivityManager!!.activeNetwork
