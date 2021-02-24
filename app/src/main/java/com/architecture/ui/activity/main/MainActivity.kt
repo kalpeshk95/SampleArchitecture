@@ -1,16 +1,21 @@
 package com.architecture.ui.activity.main
 
+import android.Manifest
 import android.app.Activity
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.provider.MediaStore
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -37,6 +42,13 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
             context.startActivity(intent)
         }
     }
+
+    private val cameraPerm = arrayOf(Manifest.permission.CAMERA)
+    private val storagePerm = arrayOf(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+    private val camStoragePerm = cameraPerm + storagePerm
 
     private lateinit var sdCardPath: String
 
@@ -98,13 +110,138 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
         binding.navDrawer.getHeaderView(0).findViewById<AppCompatImageView>(R.id.profilePic)
             .setOnClickListener {
-                resultImageChooser.launch(getPickImageChooserIntent())
+
+                if (hasPermissions(camStoragePerm)) resultImageChooser.launch(
+                    getPickImageChooserIntent()
+                )
+                else requestCameraPermission()
             }
     }
 
     override fun setVisibility(visibility: Int) {
         binding.progressBar.visibility = visibility
     }
+
+    // region [ Runtime Permission ]
+
+    private fun hasPermissions(permissions: Array<String>): Boolean {
+        for (permission in permissions) {
+            if (ActivityCompat.checkSelfPermission(this, permission) !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                return false
+            }
+        }
+        return true
+    }
+
+    private fun requestCameraPermission() {
+
+        when {
+            rationalePermission(Manifest.permission.CAMERA) -> permissionsCompat(
+                cameraPerm,
+                Constant.CAMERA_PERMISSION_CODE
+            )
+            rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> permissionsCompat(
+                storagePerm,
+                Constant.STORAGE_PERMISSION_CODE
+            )
+            else -> permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
+        }
+    }
+
+    private fun permissionsCompat(permissionsArray: Array<String>, requestCode: Int) {
+        ActivityCompat.requestPermissions(this, permissionsArray, requestCode)
+    }
+
+    private fun rationalePermission(permission: String) =
+        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
+
+    private fun goToSettings() {
+
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        alertDialogBuilder.setMessage("Your application needs runtime permissions, please add manually")
+        alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
+            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            val uri = Uri.fromParts("package", packageName, null)
+            intent.data = uri
+//            startActivityForResult(intent, Constant.SETTING_PERMISSION_CODE)
+            askMultiplePermissions.launch(intent)
+        }
+        alertDialogBuilder.setNegativeButton(
+            "No"
+        ) { dialog, _ -> dialog.dismiss() }
+        alertDialogBuilder.setCancelable(false)
+        val alertDialog = alertDialogBuilder.create()
+        alertDialog.show()
+    }
+
+    private var askMultiplePermissions =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                if (hasPermissions(camStoragePerm)) {
+                    resultImageChooser.launch(getPickImageChooserIntent())
+                }
+            }
+        }
+
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (requestCode == Constant.SETTING_PERMISSION_CODE && hasPermissions(camStoragePerm)) {
+//            resultImageChooser.launch(getPickImageChooserIntent())
+//        }
+//    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        Log.i("onRequestPermissionsResult requestCode : $requestCode")
+
+        for (i in permissions)
+            Log.i("permissions : $i")
+
+        when (requestCode) {
+            Constant.CAM_STORE_PER_CODE -> {
+                when {
+                    hasPermissions(camStoragePerm) -> resultImageChooser.launch(
+                        getPickImageChooserIntent()
+                    )
+                    !rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> goToSettings()
+                }
+            }
+            Constant.CAMERA_PERMISSION_CODE -> {
+                when {
+                    hasPermissions(cameraPerm) -> {
+                        when {
+                            hasPermissions(camStoragePerm) -> resultImageChooser.launch(
+                                getPickImageChooserIntent()
+                            )
+                            else -> requestCameraPermission()
+                        }
+                    }
+                }
+            }
+            Constant.STORAGE_PERMISSION_CODE -> {
+                when {
+                    hasPermissions(storagePerm) -> {
+                        when {
+                            hasPermissions(camStoragePerm) -> resultImageChooser.launch(
+                                getPickImageChooserIntent()
+                            )
+                            else -> requestCameraPermission()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // endregion
 
     // region [ File Chooser ]
 
