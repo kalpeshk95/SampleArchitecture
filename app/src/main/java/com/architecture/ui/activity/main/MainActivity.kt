@@ -272,8 +272,9 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
             allIntents.add(captureIntent)
         }
 
-        val galleryIntent = Intent(Intent.ACTION_PICK)
-        galleryIntent.type = "image/*"
+        val galleryIntent = Intent(Intent.ACTION_PICK).apply {
+            type = "image/*"
+        }
         val listGallery = packageManager.queryIntentActivities(galleryIntent, 0)
         for (res in listGallery) {
             galleryIntent.component =

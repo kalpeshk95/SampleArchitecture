@@ -13,16 +13,33 @@
             android:name="android.hardware.camera"
             android:required="true" />
 
+    <queries>
+
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+            <data android:mimeType="image/*" />
+        </intent>
+
+    </queries>
+
 
     <application
             android:name=".app.MyApplication"
             android:allowBackup="false"
             android:icon="@mipmap/ic_launcher"
+            android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
             android:usesCleartextTraffic="true"
             tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- This requestLegacyExternalStorage attribute is "false" by default on apps targeting
+     Android 10 or higher. -->
 
         <activity
                 android:name=".ui.activity.login.LoginActivity"
