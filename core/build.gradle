@@ -1,10 +1,7 @@
-import com.architecture.Dependencies as deps
-
 apply from: "$rootDir/android-base-lib.gradle"
-
 
 dependencies {
 
-    implementation(deps.kotlinStdLib)
-    implementation(deps.timber)
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "com.jakewharton.timber:timber:4.7.1"
 }

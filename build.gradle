@@ -1,7 +1,20 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-import com.architecture.Dependencies as deps
-
 buildscript {
+
+    ext{
+        compileSdkVersion = 29
+        minSdkVersion = 21
+        targetSdkVersion = 29
+
+        nav_fragment = '2.3.5'
+        room = '2.3.0'
+        life_cycle = '2.3.1'
+        work_manager = '2.5.0'
+        koin = '2.2.2'
+        kotlin_version = '1.5.10'
+        retrofit = '2.9.0'
+        okhttp = '4.9.1'
+        rx = '3.0.0'
+    }
 
     repositories {
         google()
@@ -9,8 +22,8 @@ buildscript {
     }
 
     dependencies {
-        classpath(deps.BuildPlugins.androidGradlePlugin)
-        classpath(deps.BuildPlugins.kotlinGradlePlugin)
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

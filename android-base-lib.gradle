@@ -1,30 +1,16 @@
-import com.architecture.Dependencies as deps
-
-apply plugin: deps.BuildPlugins.androidLibrary
-apply plugin: deps.BuildPlugins.kotlinAndroid
-apply plugin: deps.BuildPlugins.kapt
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion(deps.Android.compileSdkVersion)
+    compileSdkVersion rootProject.compileSdkVersion
     defaultConfig {
-        minSdkVersion deps.Android.minSdkVersion
-        targetSdkVersion deps.Android.targetSdkVersion
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
         versionCode = 1
         versionName = "1.0"
     }
-
-//    buildFeatures {
-//
-//        // Determines whether to generate a BuildConfig class.
-//        buildConfig = true
-//
-//        // Determines whether to support View Binding
-//        viewBinding = true
-//
-//        // Determines whether to support Data Binding.
-//        //dataBinding = false
-//    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8

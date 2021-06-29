@@ -1,19 +1,17 @@
-import com.architecture.Dependencies as deps
-
-apply plugin: deps.BuildPlugins.androidApplication
-apply plugin: deps.BuildPlugins.kotlinAndroid
-apply plugin: deps.BuildPlugins.kapt
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
 
-    compileSdkVersion(deps.Android.compileSdkVersion)
+    compileSdkVersion rootProject.compileSdkVersion
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId = deps.Android.applicationId
-        minSdkVersion deps.Android.minSdkVersion
-        targetSdkVersion deps.Android.targetSdkVersion
-        versionCode = deps.Android.versionCode
-        versionName = deps.Android.versionName
+        applicationId = 'com.architecture'
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -88,18 +86,13 @@ android {
     }
 
     buildFeatures {
-
-        // Determines whether to generate a BuildConfig class.
-//        buildConfig = true
-
-        // Determines whether to support View Binding
         viewBinding = true
     }
 }
 
 dependencies {
-    implementation(deps.kotlinStdLib)
-    implementation(deps.AndroidX.appcompat)
-    implementation(deps.AndroidX.coreKtx)
-    implementation(deps.AndroidX.constraintLayout)
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "androidx.appcompat:appcompat:1.3.0"
+    implementation "androidx.core:core-ktx:1.5.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
 }
