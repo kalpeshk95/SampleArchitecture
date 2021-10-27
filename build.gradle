@@ -1,16 +1,16 @@
 buildscript {
 
     ext{
-        compileSdkVersion = 29
+        compileSdkVersion = 30
         minSdkVersion = 21
-        targetSdkVersion = 29
+        targetSdkVersion = 30
 
         nav_fragment = '2.3.5'
         room = '2.3.0'
         life_cycle = '2.3.1'
-        work_manager = '2.5.0'
-        koin = '2.2.2'
-        kotlin_version = '1.5.10'
+        work_manager = '2.6.0'
+        koin = '2.2.3'
+        kotlin_version = '1.5.31'
         retrofit = '2.9.0'
         okhttp = '4.9.1'
         rx = '3.0.0'
@@ -18,20 +18,13 @@ buildscript {
 
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.android.tools.build:gradle:7.0.3'
+        classpath "io.insert-koin:koin-gradle-plugin:$koin"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        maven { url 'https://jitpack.io' }
     }
 }
 

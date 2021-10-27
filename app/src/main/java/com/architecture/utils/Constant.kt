@@ -11,5 +11,7 @@ object Constant {
 
         const val TAG = "SampleDemo"
 
+        const val PREFS_FILE_NAME = "sample_pref"
+
         const val QUERY_EXHAUSTED = "Query is exhausted."
 }

@@ -1,15 +1,14 @@
-//import com.architecture.Dependencies as deps
-
-//apply from: "$rootDir/android-base-app.gradle"
-apply plugin: 'kotlin-parcelize'
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'kotlin-parcelize'
+    id 'koin'
+}
 
 android {
 
     compileSdkVersion rootProject.compileSdkVersion
-    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId = 'com.architecture'
         minSdkVersion rootProject.minSdkVersion
@@ -86,78 +85,55 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_1_8.toString()
+        jvmTarget = '1.8'
     }
 
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 }
 
 dependencies {
 
-    api project(":core")
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation "androidx.appcompat:appcompat:1.3.0"
-    implementation "androidx.core:core-ktx:1.5.0"
-    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    implementation "androidx.appcompat:appcompat:1.3.1"
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.1"
 
-//    implementation(deps.viewBindingHelper)
-    implementation 'com.github.CraZyLegenD.Set-Of-Useful-Kotlin-Extensions-and-Helpers:viewbinding:2.2.0'
+    implementation 'com.github.FunkyMuse.KAHelpers:viewbinding:2.2.10'
 
-    //Timber
-//    implementation(deps.timber)
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
 
     // Navigation
-//    implementation(deps.AndroidX.Navigation.navigationFragment)
-//    implementation(deps.AndroidX.Navigation.navigationUi)
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_fragment"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_fragment"
 
 
     // Room components
-//    implementation(deps.AndroidX.Room.runtime)
-//    kapt(deps.AndroidX.Room.compiler)
     implementation "androidx.room:room-runtime:$room"
     kapt "androidx.room:room-compiler:$room"
 
     // Lifecycle components
-//    implementation(deps.AndroidX.Lifecycle.viewModel)
-//    implementation(deps.AndroidX.Lifecycle.liveData)
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$life_cycle"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$life_cycle"
 
     // WorkManager
-//    implementation(deps.AndroidX.Work.runtimeKtx)
     implementation "androidx.work:work-runtime-ktx:$work_manager"
 
     //Koin
-//    implementation(deps.Koin.fragment)
-//    implementation(deps.Koin.scope)
-//    implementation(deps.Koin.viewModel)
-//    kapt(deps.Koin.gradlePlugin)
-    implementation "org.koin:koin-androidx-fragment:$koin"
-    implementation "org.koin:koin-androidx-scope:$koin"
-    implementation "org.koin:koin-androidx-viewmodel:$koin"
-    kapt "org.koin:koin-gradle-plugin:$koin"
+    implementation "io.insert-koin:koin-androidx-fragment:$koin"
+    implementation "io.insert-koin:koin-androidx-scope:$koin"
+    implementation "io.insert-koin:koin-androidx-viewmodel:$koin"
 
     // Retrofit dependencies
-//    implementation(deps.Retrofit.retrofit)
-//    implementation(deps.Retrofit.gsonConverter)
-//    implementation(deps.Retrofit.retrofitAdapter)
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
 
     //OkHttp
-//    implementation(deps.OkHttp.loggingInterceptor)
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
     //Rx Java
-//    implementation(deps.Rx.rxJava)
-//    implementation(deps.Rx.rxAndroid)
-    implementation "io.reactivex.rxjava3:rxjava:$rx"
+    implementation "io.reactivex.rxjava3:rxjava:3.1.2"
     implementation "io.reactivex.rxjava3:rxandroid:$rx"
 }

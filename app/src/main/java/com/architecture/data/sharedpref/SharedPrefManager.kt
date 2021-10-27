@@ -1,8 +1,8 @@
 package com.architecture.data.sharedpref
 
 interface SharedPrefManager {
-    fun putUserName(user: String)
+    fun setUserName(user: String)
     fun getUserName(): String
-    fun putPassword(passwd: String)
-    fun getPasswd(): String
+    fun setPassword(passwd: String)
+    fun getPassword(): String
 }

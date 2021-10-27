@@ -1,10 +1,10 @@
 package com.architecture.ui.activity.login
 
 import androidx.lifecycle.MutableLiveData
-import com.architecture.data.sharedpref.SharedPreferencesRepository
+import com.architecture.data.sharedpref.Prefs
 import com.architecture.ui.fragments.base.BaseViewModel
 
-class LoginViewModel(private val sharedPrefRepository: SharedPreferencesRepository) : BaseViewModel() {
+class LoginViewModel(private val prefs: Prefs) : BaseViewModel() {
 
 //    var username = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
 //    var password = ObservableField("")//(if (BuildConfig.DEBUG) "root" else "")
@@ -30,21 +30,20 @@ class LoginViewModel(private val sharedPrefRepository: SharedPreferencesReposito
                 return
             }
             else -> {
-                sharedPrefRepository.putUserName(username)
-                sharedPrefRepository.putPassword(password)
+                prefs.setUserName(username)
+                prefs.setPassword(password)
 
                 login.value = true
             }
         }
-
     }
 
     fun onForgetPassWd() {
         toastMsg.value = "UserName and password must be same...!"
     }
 
-    fun getUserName() = sharedPrefRepository.getUserName()
-    fun getPassword() = sharedPrefRepository.getPasswd()
+    fun getUserName() = prefs.getUserName()
+    fun getPassword() = prefs.getPassword()
 
 }
 

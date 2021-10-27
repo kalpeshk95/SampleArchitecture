@@ -3,8 +3,6 @@ package com.architecture.app
 import android.app.Application
 import android.content.IntentFilter
 import com.architecture.BuildConfig
-import com.architecture.core.logs.DebugTree
-import com.architecture.core.logs.ReleaseTree
 import com.architecture.domain.*
 import com.architecture.ui.receiver.MyReceiver
 import org.koin.android.ext.koin.androidContext
@@ -34,7 +32,6 @@ class MyApplication : Application() {
 
             modules(
                 listOf(
-                    preferencesModule,
                     appModule,
                     repoModule,
                     retrofitModule,
@@ -53,9 +50,7 @@ class MyApplication : Application() {
 
     private fun setupTimber() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
-        } else {
-            Timber.plant(ReleaseTree())
+            Timber.plant(Timber.DebugTree())
         }
     }
 }
