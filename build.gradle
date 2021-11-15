@@ -1,14 +1,14 @@
 buildscript {
 
     ext{
-        compileSdkVersion = 30
+        compileSdkVersion = 31
         minSdkVersion = 21
-        targetSdkVersion = 30
+        targetSdkVersion = 31
 
         nav_fragment = '2.3.5'
         room = '2.3.0'
-        life_cycle = '2.3.1'
-        work_manager = '2.6.0'
+        life_cycle = '2.4.0'
+        work_manager = '2.7.0'
         koin = '2.2.3'
         kotlin_version = '1.5.31'
         retrofit = '2.9.0'
