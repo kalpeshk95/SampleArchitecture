@@ -6,24 +6,23 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.utils.Constant
+import com.architecture.utils.Log
+import com.architecture.wrapper.User
 import com.architecture.R
 import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
-import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.ui.fragments.menu.MenuViewModel
-import com.architecture.utils.Constant
-import com.architecture.utils.Log
-import com.architecture.wrapper.User
-import com.crazylegend.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
-    private val binding by viewBinding(FragmentRoomBinding::bind)
+    private var _binding: FragmentRoomBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModel<RoomViewModel>()
 
     private lateinit var roomAdapter: RoomAdapter
@@ -33,7 +32,8 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_room, container, false)
+        _binding = FragmentRoomBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -158,6 +158,11 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
 
     override fun onDeleteClick(user: User) {
         viewModel.delete(user)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

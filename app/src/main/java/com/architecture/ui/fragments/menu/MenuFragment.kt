@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.R
-import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.network.Resource
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Log
-import com.crazylegend.viewbinding.viewBinding
+import com.architecture.R
+import com.architecture.databinding.FragmentMenuBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
-    private val binding by viewBinding(FragmentMenuBinding::bind)
+    private var _binding: FragmentMenuBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModel<MenuViewModel>()
 
     private lateinit var menuAdapter: MenuAdapter
@@ -25,7 +26,8 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_menu, container, false)
+        _binding = FragmentMenuBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,5 +87,10 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
             layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
             this.adapter = menuAdapter
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

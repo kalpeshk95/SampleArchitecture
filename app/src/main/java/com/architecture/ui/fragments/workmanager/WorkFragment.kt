@@ -4,25 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.ui.workers.ThirdWorker
 import com.architecture.R
 import com.architecture.databinding.FragmentWorkBinding
-import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.ui.fragments.room.RoomViewModel
-import com.architecture.ui.workers.ThirdWorker
-import com.crazylegend.viewbinding.viewBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
-    private val binding by viewBinding(FragmentWorkBinding::bind)
+    private var _binding: FragmentWorkBinding? = null
+    private val binding get() = _binding!!
+
     private val viewModel by viewModel<WorkViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_work, container, false)
+        _binding = FragmentWorkBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,5 +51,10 @@ class WorkFragment : BaseFragment(R.layout.fragment_work) {
         binding.btnPeriodic.setOnClickListener {
             viewModel.addPeriodicRequest()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
