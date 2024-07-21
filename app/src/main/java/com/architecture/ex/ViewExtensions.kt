@@ -21,14 +21,14 @@ fun View.invisible() {
     this.visibility = View.INVISIBLE
 }
 
-fun View.showSnackbar(
+fun View.showSnackBar(
     msgId: Int,
     length: Int,
     actionMessageId: Int,
     action: (View) -> Unit
 ) {
-    val snackbar = Snackbar.make(this, context.getString(msgId), length)
-    snackbar.setAction(context.getString(actionMessageId)) {
+    val snackBar = Snackbar.make(this, context.getString(msgId), length)
+    snackBar.setAction(context.getString(actionMessageId)) {
         action(this)
     }.show()
 }
@@ -40,7 +40,7 @@ fun View.hideKeyboard() {
 
 fun View.showKeyboard() {
     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-    imm.toggleSoftInputFromWindow(windowToken, 1, 0)
+    imm.hideSoftInputFromWindow(windowToken, 1)
     // imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0)
 }
 

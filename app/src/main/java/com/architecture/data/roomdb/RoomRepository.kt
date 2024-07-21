@@ -2,12 +2,12 @@ package com.architecture.data.roomdb
 
 import androidx.lifecycle.LiveData
 import com.architecture.utils.Constant
-import com.architecture.utils.Log
 import com.architecture.wrapper.User
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import timber.log.Timber
 
 class RoomRepository(private val dao: LocalDao) : RoomManager {
 
@@ -25,13 +25,13 @@ class RoomRepository(private val dao: LocalDao) : RoomManager {
                 callback.onSetMessage("User added successfully")
             }, {
                 callback.onSetMessage(it.message!!)
-                Log.i(Constant.TAG, "insert ex : ${it.message}")
+                Timber.i(Constant.TAG, "insert ex : ${it.message}")
             })
     }
 
     override suspend fun update(callback: RoomManager.CallbackManager, user: User) {
 
-        Log.i(Constant.TAG, "User : $user")
+        Timber.i(Constant.TAG, "User : $user")
         disposable = Completable.fromCallable { dao.update(user) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -39,7 +39,7 @@ class RoomRepository(private val dao: LocalDao) : RoomManager {
                 callback.onSetMessage("User updated successfully")
             }, {
                 callback.onSetMessage(it.message!!)
-                Log.i(Constant.TAG, "update ex : ${it.message}")
+                Timber.i(Constant.TAG, "update ex : ${it.message}")
             })
     }
 
@@ -51,7 +51,7 @@ class RoomRepository(private val dao: LocalDao) : RoomManager {
                 callback.onSetMessage("User deleted successfully")
             }, {
                 callback.onSetMessage("Something went wrong...! ${it.message}")
-                Log.i(Constant.TAG, "delete ex : ${it.message}")
+                Timber.i(Constant.TAG, "delete ex : ${it.message}")
             })
     }
 
@@ -63,7 +63,7 @@ class RoomRepository(private val dao: LocalDao) : RoomManager {
                 callback.onSetMessage("Records deleted successfully")
             }, {
                 callback.onSetMessage("Something went wrong...! ${it.message}")
-                Log.i(Constant.TAG, "delete all ex : ${it.message}")
+                Timber.i(Constant.TAG, "delete all ex : ${it.message}")
             })
     }
 }

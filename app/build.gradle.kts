@@ -1,7 +1,7 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.devtools.ksp)
 }
 
 android {
@@ -59,41 +59,42 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.13.1")
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
 
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(libs.timber)
+    implementation(libs.androidx.swiperefreshlayout)
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
-
-    // Room components
-    implementation("androidx.room:room-runtime:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     // Lifecycle components
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.3")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.3")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    // Room components
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
 
     // WorkManager
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation(libs.androidx.work.runtime.ktx)
 
     //Koin
-    implementation("io.insert-koin:koin-androidx-fragment:2.2.3")
-    implementation("io.insert-koin:koin-androidx-scope:2.2.3")
-    implementation("io.insert-koin:koin-androidx-viewmodel:2.2.3")
+    implementation(libs.androidx.koin.fragment)
+    implementation(libs.androidx.koin.scope)
+    implementation(libs.androidx.koin.viewModel)
 
     // Retrofit dependencies
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.11.0")
+    implementation(libs.retrofit2.retrofit)
+    implementation(libs.retrofit2.converter.gson)
+    implementation(libs.retrofit2.adapter.rxjava3)
 
-    //OkHttp
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    // OkHttp dependencies
+    implementation(libs.okhttp3.logging.interceptor)
 
     //Rx Java
-    implementation("io.reactivex.rxjava3:rxjava:3.1.8")
-    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation(libs.rxjava3.rxjava)
+    implementation(libs.rxjava3.rxandroid)
 }

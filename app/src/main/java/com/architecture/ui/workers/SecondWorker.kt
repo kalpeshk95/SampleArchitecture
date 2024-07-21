@@ -5,10 +5,9 @@ import androidx.work.CoroutineWorker
 import androidx.work.Data
 import androidx.work.WorkerParameters
 import com.architecture.utils.Constant
-import com.architecture.utils.Log
-import org.jetbrains.annotations.NotNull
+import timber.log.Timber
 
-class SecondWorker(@NotNull context: Context, @NotNull workerParams: WorkerParameters) :
+class SecondWorker(context: Context, workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
 
     companion object {
@@ -17,7 +16,7 @@ class SecondWorker(@NotNull context: Context, @NotNull workerParams: WorkerParam
 
     override suspend fun doWork(): Result {
 
-        Log.i(Constant.TAG, "In SecondWorker")
+        Timber.i(Constant.TAG, "In SecondWorker")
         val number = inputData.getInt(KEY, 0)
         val data = Data.Builder().putInt(KEY, number).build()
         return Result.success(data)

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.ui.workers.ThirdWorker
 import com.architecture.R
 import com.architecture.databinding.FragmentWorkBinding
+import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.ui.workers.ThirdWorker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WorkFragment : BaseFragment(R.layout.fragment_work) {
@@ -33,9 +33,9 @@ class WorkFragment : BaseFragment(R.layout.fragment_work) {
 
     override fun initView() {
 
-        viewModel.result?.observe(viewLifecycleOwner, {
-            binding.resultText.text = "${it.outputData.getInt(ThirdWorker.KEY, 0)}"
-        })
+        viewModel.result?.observe(viewLifecycleOwner) {
+            binding.resultText.text = it.outputData.getInt(ThirdWorker.KEY, 0).toString()
+        }
     }
 
     override fun initClick() {

@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.network.Resource
-import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.utils.Log
 import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
+import com.architecture.network.Resource
+import com.architecture.ui.fragments.base.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class MenuFragment : BaseFragment(R.layout.fragment_menu) {
 
@@ -40,7 +40,7 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
         createAdapter()
         /*if (viewModel.listEmployee.value == null)*/ viewModel.listEmployee()
 
-        viewModel.listEmployee.observe(viewLifecycleOwner, {
+        viewModel.listEmployee.observe(viewLifecycleOwner) {
 
             when (it) {
 
@@ -60,19 +60,19 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
                 is Resource.Error -> {
                     viewModel.showLoader.value = false
                     viewModel.toastMsg.value = "Something went wrong"
-                    Log.e("Fetch employee ex : ${it.exception}")
+                    Timber.e("Fetch employee ex : ${it.exception}")
                 }
 
             }
-        })
+        }
 
-        viewModel.showLoader.observe(viewLifecycleOwner, {
+        viewModel.showLoader.observe(viewLifecycleOwner) {
             progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
-        })
+        }
 
-        viewModel.toastMsg.observe(viewLifecycleOwner, {
+        viewModel.toastMsg.observe(viewLifecycleOwner) {
             showToast(it)
-        })
+        }
     }
 
     override fun initClick() {

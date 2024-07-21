@@ -68,7 +68,7 @@ class WorkViewModel(context: Context) : BaseViewModel() {
 
         workManager.enqueueUniquePeriodicWork(
             "periodicRequest",
-            ExistingPeriodicWorkPolicy.REPLACE,
+            ExistingPeriodicWorkPolicy.UPDATE,
             periodicWorkRequest
         )
     }

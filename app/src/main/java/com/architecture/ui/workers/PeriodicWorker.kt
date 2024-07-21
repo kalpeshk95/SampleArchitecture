@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.architecture.utils.Constant
-import com.architecture.utils.Log
-import org.jetbrains.annotations.NotNull
+import timber.log.Timber
 
-class PeriodicWorker(@NotNull appContext: Context, @NotNull params: WorkerParameters) : CoroutineWorker(appContext, params) {
+class PeriodicWorker(appContext: Context, params: WorkerParameters) :
+    CoroutineWorker(appContext, params) {
 
     override suspend fun doWork(): Result {
 
-        Log.i(Constant.TAG, "Periodic Request Enqueue...!")
+        Timber.i(Constant.TAG, "Periodic Request Enqueue...!")
         return Result.success()
     }
 }

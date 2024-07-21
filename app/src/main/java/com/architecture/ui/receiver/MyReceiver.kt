@@ -5,14 +5,15 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.widget.Toast
-import com.architecture.utils.Log
+import timber.log.Timber
 
 class MyReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         try {
 
-            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+            val connectivityManager =
+                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
             val activeNetworkInfo = connectivityManager!!.activeNetwork
             if (activeNetworkInfo != null /*&& activeNetworkInfo.isAvailable && activeNetworkInfo.isConnected*/) {
                 Toast.makeText(context, "Online", Toast.LENGTH_SHORT).show()
@@ -20,7 +21,7 @@ class MyReceiver : BroadcastReceiver() {
                 Toast.makeText(context, "You are offline", Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
-            Log.e("onReceive : ${e.message}")
+            Timber.e("onReceive : ${e.message}")
         }
     }
 }

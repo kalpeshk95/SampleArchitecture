@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.utils.Constant
-import com.architecture.utils.Log
-import com.architecture.wrapper.User
 import com.architecture.R
 import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
+import com.architecture.ui.fragments.base.BaseFragment
+import com.architecture.utils.Constant
+import com.architecture.wrapper.User
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
@@ -46,20 +46,20 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
 
         createAdapter()
 
-        viewModel.usersList?.observe(viewLifecycleOwner, {
+        viewModel.usersList?.observe(viewLifecycleOwner) {
             roomAdapter.setItems(it)
-        })
+        }
 
-        viewModel.toastMsg.observe(viewLifecycleOwner, { showToast(it) })
+        viewModel.toastMsg.observe(viewLifecycleOwner) { showToast(it) }
 
-        viewModel.flagDialog.observe(viewLifecycleOwner, {
+        viewModel.flagDialog.observe(viewLifecycleOwner) {
             if (it) {
                 dialog.let { dialog ->
                     if (dialog.isShowing)
                         dialog.cancel()
                 }
             }
-        })
+        }
     }
 
     override fun initClick() {
@@ -99,9 +99,9 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
             dialogBinding.run {
                 headerText.text = getString(R.string.add_user)
                 btnAddUpdate.text = getString(R.string.add)
-                edtName.setText("")
-                edtAge.setText("")
-                edtSalary.setText("")
+                edtName.setText(getString(R.string.empty_string))
+                edtAge.setText(getString(R.string.empty_string))
+                edtSalary.setText(getString(R.string.empty_string))
             }
         } else {
             dialogBinding.run {
@@ -152,7 +152,7 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
     }
 
     override fun onEditClick(user: User) {
-        Log.i(Constant.TAG, user.toString())
+        Timber.i(Constant.TAG, user.toString())
         openDialog(false, user)
     }
 

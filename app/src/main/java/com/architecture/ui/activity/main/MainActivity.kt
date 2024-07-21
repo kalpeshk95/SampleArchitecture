@@ -30,9 +30,8 @@ import com.architecture.ui.activity.base.BaseActivity
 import com.architecture.ui.activity.login.LoginActivity
 import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
-import com.architecture.utils.Log
+import timber.log.Timber
 import java.io.File
-import java.util.*
 
 class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
@@ -142,10 +141,12 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
                 cameraPerm,
                 Constant.CAMERA_PERMISSION_CODE
             )
+
             rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> permissionsCompat(
                 storagePerm,
                 Constant.STORAGE_PERMISSION_CODE
             )
+
             else -> permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
         }
     }
@@ -200,10 +201,10 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        Log.i("onRequestPermissionsResult requestCode : $requestCode")
+        Timber.i("onRequestPermissionsResult requestCode : $requestCode")
 
         for (i in permissions)
-            Log.i("permissions : $i")
+            Timber.i("permissions : $i")
 
         when (requestCode) {
             Constant.CAM_STORE_PER_CODE -> {
@@ -211,9 +212,11 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
                     hasPermissions(camStoragePerm) -> resultImageChooser.launch(
                         getPickImageChooserIntent()
                     )
+
                     !rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> goToSettings()
                 }
             }
+
             Constant.CAMERA_PERMISSION_CODE -> {
                 when {
                     hasPermissions(cameraPerm) -> {
@@ -221,11 +224,13 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
                             hasPermissions(camStoragePerm) -> resultImageChooser.launch(
                                 getPickImageChooserIntent()
                             )
+
                             else -> requestCameraPermission()
                         }
                     }
                 }
             }
+
             Constant.STORAGE_PERMISSION_CODE -> {
                 when {
                     hasPermissions(storagePerm) -> {
@@ -233,6 +238,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
                             hasPermissions(camStoragePerm) -> resultImageChooser.launch(
                                 getPickImageChooserIntent()
                             )
+
                             else -> requestCameraPermission()
                         }
                     }
@@ -286,7 +292,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         var mainIntent = allIntents[allIntents.size - 1]
         for (intent in allIntents) {
             if (intent.component?.className.equals("com.android.documentsui.DocumentsActivity")) {
-                Log.i(Constant.TAG, "In remove Intent")
+                Timber.i(Constant.TAG, "In remove Intent")
                 mainIntent = intent
                 break
             }
@@ -310,7 +316,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val filePath = getImageFilePath(result.data)
-                Log.i("File Path : $filePath")
+                Timber.i("File Path : $filePath")
 
                 if (filePath != null) {
                     val selectedImage = BitmapFactory.decodeFile(filePath)
@@ -331,7 +337,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         val getImage = File(sdCardPath, "profile.jpg")
         val outputFileUri = Uri.fromFile(getImage)
 
-        Log.i(Constant.TAG, "outputFileUri : ${outputFileUri?.path}")
+        Timber.i(Constant.TAG, "outputFileUri : ${outputFileUri?.path}")
 
         return outputFileUri
     }
@@ -369,7 +375,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
             binding.header.backBtn.gone()
         } else {
             binding.header.backBtn.visible()
-            setDrawerState(true)
+            setDrawerState()
         }
     }
 
@@ -378,8 +384,8 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         closeDrawer()
     }
 
-    private fun setDrawerState(enable: Boolean) {
-        binding.drawerLayout.setDrawerLockMode(if (enable) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+    private fun setDrawerState() {
+        binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     private fun closeDrawer() {
