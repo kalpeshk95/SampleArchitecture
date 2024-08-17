@@ -2,14 +2,12 @@ package com.architecture.ui.activity.main
 
 import android.Manifest
 import android.app.Activity
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.provider.MediaStore
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
@@ -25,6 +24,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.architecture.R
 import com.architecture.databinding.ActivityMainBinding
 import com.architecture.ex.gone
+import com.architecture.ex.showSnackBar
 import com.architecture.ex.visible
 import com.architecture.ui.activity.base.BaseActivity
 import com.architecture.ui.activity.login.LoginActivity
@@ -32,6 +32,7 @@ import com.architecture.ui.fragments.base.BaseFragment
 import com.architecture.utils.Constant
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
@@ -43,12 +44,17 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
     }
 
     private val cameraPerm = arrayOf(Manifest.permission.CAMERA)
-    private val storagePerm = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    private val storagePerm = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+    } else {
+        arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    }
     private val camStoragePerm = cameraPerm + storagePerm
 
+    private var imageUri: Uri? = null
     private lateinit var sdCardPath: String
 
     private lateinit var binding: ActivityMainBinding
@@ -79,10 +85,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
         val root = createImageFile()
         if (root.exists()) {
-            val selectedImage = BitmapFactory.decodeFile(root.path)
-            val profile: AppCompatImageView =
-                binding.navDrawer.getHeaderView(0).findViewById(R.id.profilePic)
-            profile.setImageBitmap(selectedImage)
+            displayImage(root.toUri())
         }
     }
 
@@ -109,11 +112,11 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
         binding.navDrawer.getHeaderView(0).findViewById<AppCompatImageView>(R.id.profilePic)
             .setOnClickListener {
-
-                if (hasPermissions(camStoragePerm)) resultImageChooser.launch(
-                    getPickImageChooserIntent()
-                )
-                else requestCameraPermission()
+                if (checkPermissions(camStoragePerm)) {
+                    showFileChooserDialog()
+                } else {
+                    permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
+                }
             }
     }
 
@@ -123,7 +126,7 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
     // region [ Runtime Permission ]
 
-    private fun hasPermissions(permissions: Array<String>): Boolean {
+    private fun checkPermissions(permissions: Array<String>): Boolean {
         for (permission in permissions) {
             if (ActivityCompat.checkSelfPermission(this, permission) !=
                 PackageManager.PERMISSION_GRANTED
@@ -134,20 +137,26 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         return true
     }
 
-    private fun requestCameraPermission() {
-
-        when {
-            rationalePermission(Manifest.permission.CAMERA) -> permissionsCompat(
-                cameraPerm,
-                Constant.CAMERA_PERMISSION_CODE
+    private fun requestPermissionsWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA) ||
+            ActivityCompat.shouldShowRequestPermissionRationale(
+                this, Manifest.permission.READ_MEDIA_IMAGES
             )
-
-            rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> permissionsCompat(
-                storagePerm,
-                Constant.STORAGE_PERMISSION_CODE
-            )
-
-            else -> permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
+        ) {
+            // Show rationale and re-request permissions
+            AlertDialog.Builder(this)
+                .setTitle("Permissions Required")
+                .setMessage("This app needs camera and media permissions to function properly.")
+                .setPositiveButton("Grant") { _, _ ->
+                    permissionsCompat(camStoragePerm, Constant.CAM_STORE_PER_CODE)
+                }
+                .setNegativeButton("Cancel") { dialog, _ ->
+                    dialog.dismiss()
+                }
+                .create()
+                .show()
+        } else {
+            goToSettings()
         }
     }
 
@@ -155,18 +164,13 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         ActivityCompat.requestPermissions(this, permissionsArray, requestCode)
     }
 
-    private fun rationalePermission(permission: String) =
-        ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
-
     private fun goToSettings() {
-
         val alertDialogBuilder = AlertDialog.Builder(this)
         alertDialogBuilder.setMessage("Your application needs runtime permissions, please add manually")
         alertDialogBuilder.setPositiveButton("Yes") { _, _ ->
             val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             val uri = Uri.fromParts("package", packageName, null)
             intent.data = uri
-//            startActivityForResult(intent, Constant.SETTING_PERMISSION_CODE)
             askMultiplePermissions.launch(intent)
         }
         alertDialogBuilder.setNegativeButton(
@@ -180,19 +184,11 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
     private var askMultiplePermissions =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                if (hasPermissions(camStoragePerm)) {
-                    resultImageChooser.launch(getPickImageChooserIntent())
+                if (checkPermissions(camStoragePerm)) {
+                    showFileChooserDialog()
                 }
             }
         }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//
-//        if (requestCode == Constant.SETTING_PERMISSION_CODE && hasPermissions(camStoragePerm)) {
-//            resultImageChooser.launch(getPickImageChooserIntent())
-//        }
-//    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -200,48 +196,18 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
         Timber.i("onRequestPermissionsResult requestCode : $requestCode")
-
         for (i in permissions)
             Timber.i("permissions : $i")
 
         when (requestCode) {
             Constant.CAM_STORE_PER_CODE -> {
-                when {
-                    hasPermissions(camStoragePerm) -> resultImageChooser.launch(
-                        getPickImageChooserIntent()
-                    )
-
-                    !rationalePermission(Manifest.permission.READ_EXTERNAL_STORAGE) -> goToSettings()
-                }
-            }
-
-            Constant.CAMERA_PERMISSION_CODE -> {
-                when {
-                    hasPermissions(cameraPerm) -> {
-                        when {
-                            hasPermissions(camStoragePerm) -> resultImageChooser.launch(
-                                getPickImageChooserIntent()
-                            )
-
-                            else -> requestCameraPermission()
-                        }
-                    }
-                }
-            }
-
-            Constant.STORAGE_PERMISSION_CODE -> {
-                when {
-                    hasPermissions(storagePerm) -> {
-                        when {
-                            hasPermissions(camStoragePerm) -> resultImageChooser.launch(
-                                getPickImageChooserIntent()
-                            )
-
-                            else -> requestCameraPermission()
-                        }
-                    }
+                if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                    // Permissions granted, proceed with the camera or media access
+                    showFileChooserDialog()
+                } else {
+                    // Permissions denied, handle accordingly
+                    requestPermissionsWithRationale()
                 }
             }
         }
@@ -251,105 +217,81 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
 
     // region [ File Chooser ]
 
-    private fun getPickImageChooserIntent(): Intent? {
+    private fun showFileChooserDialog() {
+        val options = arrayOf("Take Picture", "Choose from Gallery")
 
-        val root = File(sdCardPath)
-        if (!root.exists()) {
-            root.mkdirs()
-        }
-
-        val allIntents = ArrayList<Intent>()
-        val uriPic = FileProvider.getUriForFile(
-            this,
-            applicationContext.packageName + ".provider",
-            createImageFile()
-        )
-
-        val captureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val listCam = packageManager.queryIntentActivities(captureIntent, 0)
-        for (res in listCam) {
-            captureIntent.component =
-                ComponentName(res.activityInfo.packageName, res.activityInfo.name)
-            captureIntent.setPackage(res.activityInfo.packageName)
-            if (uriPic != null) {
-                captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uriPic)
-                captureIntent.flags = Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-            }
-            allIntents.add(captureIntent)
-        }
-
-        val galleryIntent = Intent(Intent.ACTION_PICK).apply {
-            type = "image/*"
-        }
-        val listGallery = packageManager.queryIntentActivities(galleryIntent, 0)
-        for (res in listGallery) {
-            galleryIntent.component =
-                ComponentName(res.activityInfo.packageName, res.activityInfo.name)
-            galleryIntent.setPackage(res.activityInfo.packageName)
-            allIntents.add(galleryIntent)
-        }
-
-        var mainIntent = allIntents[allIntents.size - 1]
-        for (intent in allIntents) {
-            if (intent.component?.className.equals("com.android.documentsui.DocumentsActivity")) {
-                Timber.i(Constant.TAG, "In remove Intent")
-                mainIntent = intent
-                break
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select Image")
+        builder.setItems(options) { _, which ->
+            when (which) {
+                0 -> openCamera()
+                1 -> openGallery()
             }
         }
-        allIntents.remove(mainIntent)
+        builder.show()
+    }
 
-        val chooserIntent = Intent.createChooser(mainIntent, "Select Source")
-        chooserIntent.putExtra(
-            Intent.EXTRA_INITIAL_INTENTS,
-            allIntents.toArray(arrayOfNulls<Parcelable>(allIntents.size))
-        )
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageUri = createImageUri() // Create a file to save the image
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        cameraResult.launch(intent)
+    }
 
-        return chooserIntent
+    private var cameraResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Timber.i("Camera Image Uri : ${imageUri?.path}")
+                imageUri?.let { displayImage(it) }
+            }
+        }
+
+    private fun createImageUri(): Uri? {
+        return FileProvider.getUriForFile(this, "${packageName}.provider", createImageFile())
     }
 
     private fun createImageFile(): File {
         return File("$sdCardPath/profile.jpg")
     }
 
-    private var resultImageChooser =
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        galleryResult.launch(intent)
+    }
+
+    private var galleryResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val filePath = getImageFilePath(result.data)
-                Timber.i("File Path : $filePath")
-
-                if (filePath != null) {
-                    val selectedImage = BitmapFactory.decodeFile(filePath)
-                    val profile: AppCompatImageView =
-                        binding.navDrawer.getHeaderView(0).findViewById(R.id.profilePic)
-                    profile.setImageBitmap(selectedImage)
-                }
+                Timber.i("Gallery Image Uri : ${result.data?.data}")
+                result?.data?.data?.let { copyImageToSDCard(it) }
             }
         }
 
-    private fun getImageFilePath(data: Intent?): String? {
-        val isCamera = data?.data == null
-        return if (isCamera) getCaptureImageOutputUri()!!.path
-        else getPathFromURI(data?.data)
+    private fun copyImageToSDCard(imageUri: Uri) {
+        try {
+            displayImage(imageUri)
+            // Open input and output streams
+            val inputStream = contentResolver.openInputStream(imageUri)
+            val outputStream = FileOutputStream(createImageFile())
+
+            // Copy the data from input to output
+            inputStream?.copyTo(outputStream)
+
+            // Close the streams
+            inputStream?.close()
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            binding.root.showSnackBar("Failed to save image", "OK") {}
+        }
     }
 
-    private fun getCaptureImageOutputUri(): Uri? {
-        val getImage = File(sdCardPath, "profile.jpg")
-        val outputFileUri = Uri.fromFile(getImage)
 
-        Timber.i(Constant.TAG, "outputFileUri : ${outputFileUri?.path}")
-
-        return outputFileUri
-    }
-
-    private fun getPathFromURI(contentUri: Uri?): String? {
-        val projection = arrayOf(MediaStore.Audio.Media._ID)
-        val cursor = contentResolver.query(contentUri!!, projection, null, null, null)
-        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Audio.Media._ID)
-        cursor?.moveToFirst()
-        val uri = cursor?.getString(columnIndex!!)
-        cursor?.close()
-        return uri
+    private fun displayImage(uri: Uri) {
+        val profile: AppCompatImageView =
+            binding.navDrawer.getHeaderView(0).findViewById(R.id.profilePic)
+        profile.setImageURI(uri)
     }
 
     // endregion
