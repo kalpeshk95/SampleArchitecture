@@ -22,13 +22,12 @@ fun View.invisible() {
 }
 
 fun View.showSnackBar(
-    msgId: Int,
-    length: Int,
-    actionMessageId: Int,
+    msg: String,
+    actionText: String,
     action: (View) -> Unit
 ) {
-    val snackBar = Snackbar.make(this, context.getString(msgId), length)
-    snackBar.setAction(context.getString(actionMessageId)) {
+    val snackBar = Snackbar.make(this, msg, Snackbar.LENGTH_LONG)
+    snackBar.setAction(actionText) {
         action(this)
     }.show()
 }
