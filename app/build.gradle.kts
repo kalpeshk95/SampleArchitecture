@@ -76,6 +76,7 @@ dependencies {
 
     // Room components
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
     // WorkManager
@@ -93,8 +94,4 @@ dependencies {
 
     // OkHttp dependencies
     implementation(libs.okhttp3.logging.interceptor)
-
-    //Rx Java
-    implementation(libs.rxjava3.rxjava)
-    implementation(libs.rxjava3.rxandroid)
 }

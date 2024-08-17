@@ -11,14 +11,14 @@ interface LocalDao {
     val all: LiveData<List<User>>
 
     @Insert
-    fun insertAll(users: User)
+    suspend fun insertAll(users: User)
 
     @Update
-    fun update(user: User)
+    suspend fun update(user: User)
 
     @Delete
-    fun delete(user: User)
+    suspend fun delete(user: User)
 
     @Query("DELETE FROM user")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

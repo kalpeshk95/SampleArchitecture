@@ -1,16 +1,13 @@
 package com.architecture.ui.fragments.room
 
-import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.architecture.data.roomdb.RoomManager
+import com.architecture.data.roomdb.Result
 import com.architecture.data.roomdb.RoomRepository
 import com.architecture.ui.fragments.base.BaseViewModel
 import com.architecture.wrapper.User
 import kotlinx.coroutines.launch
-import org.jetbrains.annotations.NotNull
-import org.koin.java.KoinJavaComponent.inject
 
 class RoomViewModel(private val roomRepository: RoomRepository) : BaseViewModel() {
 
@@ -21,6 +18,9 @@ class RoomViewModel(private val roomRepository: RoomRepository) : BaseViewModel(
     val user = User()
     var usersList: LiveData<List<User>>? = null
     var flagDialog = MutableLiveData<Boolean>()
+
+    private val _showLoader = MutableLiveData<Boolean>()
+    val showLoader: LiveData<Boolean> = _showLoader
 
     init {
         usersList = roomRepository.getAll()
@@ -45,48 +45,71 @@ class RoomViewModel(private val roomRepository: RoomRepository) : BaseViewModel(
 
             if (flag) {
                 viewModelScope.launch {
-                    roomRepository.insert(object : RoomManager.CallbackManager {
-                        override fun onSetMessage(msg: String) {
-                            if (msg.contains("UNIQUE constraint failed")) toastMsg.value =
-                                "Record already found..."
-                            else {
-                                toastMsg.value = msg
-                                flagDialog.value = true
-                            }
+                    when (val result = roomRepository.insert(user)) {
+                        is Result.Loading -> {
+                            _showLoader.value = true
                         }
-                    }, user)
+                        is Result.Success -> {
+                            _showLoader.value = false
+                            toastMsg.value = "User ${result.data.name} added successfully"
+                            flagDialog.value = true
+                        }
+                        is Result.Error -> {
+                            _showLoader.value = false
+                            toastMsg.value = "Error adding user: ${result.exception.message}"
+                        }
+                    }
                 }
             } else {
                 viewModelScope.launch {
-                    roomRepository.update(object : RoomManager.CallbackManager {
-                        override fun onSetMessage(msg: String) {
-                            toastMsg.value = msg
+                    when (val result = roomRepository.update(user)) {
+                        is Result.Loading -> {
+                            _showLoader.value = true
+                        }
+                        is Result.Success -> {
+                            _showLoader.value = false
+                            toastMsg.value = "User ${result.data.name} updated successfully"
                             flagDialog.value = true
                         }
-                    }, user)
+                        is Result.Error -> {
+                            _showLoader.value = false
+                            toastMsg.value = "Error updating user: ${result.exception.message}"
+                        }
+                    }
                 }
             }
         }
     }
 
     fun delete(user: User) = viewModelScope.launch {
-        roomRepository.delete(object : RoomManager.CallbackManager {
-            override fun onSetMessage(msg: String) {
-                toastMsg.value = msg
+        when (val result = roomRepository.delete(user)) {
+            is Result.Loading -> {
+                _showLoader.value = true
             }
-        }, user)
+            is Result.Success -> {
+                _showLoader.value = false
+                toastMsg.value = "User ${result.data.name} deleted successfully"
+            }
+            is Result.Error -> {
+                _showLoader.value = false
+                toastMsg.value = "Error deleting user: ${result.exception.message}"
+            }
+        }
     }
 
     fun deleteAll() = viewModelScope.launch {
-        roomRepository.deleteAll(object : RoomManager.CallbackManager {
-            override fun onSetMessage(msg: String) {
-                toastMsg.value = msg
+        when (val result = roomRepository.deleteAll()) {
+            is Result.Loading -> {
+                _showLoader.value = true
             }
-        })
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        roomRepository.disposable?.dispose()
+            is Result.Success -> {
+                _showLoader.value = false
+                toastMsg.value = result.data
+            }
+            is Result.Error -> {
+                _showLoader.value = false
+                toastMsg.value = "Error deleting records: ${result.exception.message}"
+            }
+        }
     }
 }

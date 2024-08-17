@@ -9,6 +9,7 @@ import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
+import com.architecture.data.roomdb.Result
 import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
@@ -48,6 +49,10 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
 
         viewModel.usersList?.observe(viewLifecycleOwner) {
             roomAdapter.setItems(it)
+        }
+
+        viewModel.showLoader.observe(viewLifecycleOwner) {
+            progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
         }
 
         viewModel.toastMsg.observe(viewLifecycleOwner) { showToast(it) }
