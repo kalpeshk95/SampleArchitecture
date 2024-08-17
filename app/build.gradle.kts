@@ -37,11 +37,11 @@ android {
         create("dev") {
             dimension = "version"
             applicationIdSuffix = ".dev"
-            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
         }
         create("prod") {
             dimension = "version"
-            buildConfigField("String", "BASE_URL", "\"http://www.mocky.io/v2/\"")
+            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
         }
     }
     compileOptions {
