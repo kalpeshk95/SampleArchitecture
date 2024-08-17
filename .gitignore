@@ -1,15 +1,65 @@
-*.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+# Gradle files
+.gradle/
+build/
+
+# Local configuration file (sdk path, etc)
 local.properties
+*.iml
+.idea/
+
+# Log files
+*.log
+
+# Android Studio Generated Files
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navEditor.xml
+.idea/assetWizardSettings.xml
+.idea/gradle.xml
+.idea/copyright/
+.idea/codeStyles/
+.idea/inspectionProfiles/
+.idea/dictionaries/
+.idea/tasks.xml
+.idea/encodings.xml
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/misc.xml
+
+# Keystore files
+*.jks
+
+# Android build folders
+.gradle/
+/build/
+.externalNativeBuild/
+.cxx/
+
+# ProGuard files
+proguard/
+
+# App Bundles
+*.aab
+*.apk
+
+# Local unit test results
+.gradle/test/
+
+# IntelliJ IDEA
+.idea/
+
+# Node-related files (if using React Native or Node in the project)
+node_modules/
+*.lock
+package-lock.json
+
+# Ignore macOS system files
+.DS_Store
+.AppleDouble
+
+# Ignore Windows system files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
