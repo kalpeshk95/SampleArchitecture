@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
 import com.architecture.databinding.FragmentMenuBinding
 import com.architecture.network.Resource
@@ -19,11 +18,11 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<MenuViewModel>()
-
-    private lateinit var menuAdapter: MenuAdapter
+    private val menuAdapter by lazy { MenuAdapter() }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMenuBinding.inflate(inflater, container, false)
@@ -34,59 +33,53 @@ class MenuFragment : BaseFragment(R.layout.fragment_menu) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         initClick()
+        observer()
     }
 
     override fun initView() {
-        createAdapter()
-        /*if (viewModel.listEmployee.value == null)*/ viewModel.listEmployee()
-
-        viewModel.listEmployee.observe(viewLifecycleOwner) {
-
-            when (it) {
-
-                is Resource.Success -> {
-                    it.data?.let { employeeList ->
-                        menuAdapter.setItems(employeeList)
-                        viewModel.showLoader.value = false
-                        if (binding.swipeRefresh.isRefreshing) binding.swipeRefresh.isRefreshing =
-                            false
-                    }
-                }
-
-                is Resource.Loading -> {
-//                    viewModel.showLoader.value = false
-                }
-
-                is Resource.Error -> {
-                    viewModel.showLoader.value = false
-                    viewModel.toastMsg.value = "Something went wrong"
-                    Timber.e("Fetch employee ex : ${it.exception}")
-                }
-
-            }
-        }
-
-        viewModel.showLoader.observe(viewLifecycleOwner) {
-            progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
-        }
-
-        viewModel.toastMsg.observe(viewLifecycleOwner) {
-            showToast(it)
+        with(binding.rvPosts) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = menuAdapter
         }
     }
 
     override fun initClick() {
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.listEmployee()
+        binding.swipeRefresh.setOnRefreshListener(viewModel::fetchEmployees)
+    }
+
+    private fun observer() {
+        with(viewModel) {
+            listEmployee.observe(viewLifecycleOwner) { it ->
+                when (it) {
+                    is Resource.Success -> {
+                        it.data?.let { employeeList ->
+                            employeeList.let(menuAdapter::setItems)
+                            hideLoading()
+                        }
+                    }
+
+                    is Resource.Loading -> showLoading()
+
+                    is Resource.Error -> {
+                        hideLoading()
+                        toastMsg.value = "Something went wrong"
+                        Timber.e("Fetch employee ex : ${it.exception}")
+                    }
+
+                }
+            }
+            toastMsg.observe(viewLifecycleOwner, ::showToast)
         }
     }
 
-    private fun createAdapter() {
-        menuAdapter = MenuAdapter()
-        binding.rvPosts.apply {
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            this.adapter = menuAdapter
-        }
+    private fun showLoading() {
+        progressBarVisibility?.setVisibility(View.VISIBLE)
+        binding.swipeRefresh.isRefreshing = true
+    }
+
+    private fun hideLoading() {
+        progressBarVisibility?.setVisibility(View.GONE)
+        binding.swipeRefresh.isRefreshing = false
     }
 
     override fun onDestroyView() {

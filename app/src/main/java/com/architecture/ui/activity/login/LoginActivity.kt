@@ -12,20 +12,19 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class LoginActivity : BaseActivity() {
 
     companion object {
-        fun start(context: Context) {
-            val intent = Intent(context, LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            context.startActivity(intent)
-        }
+        fun start(context: Context) = context.startActivity(
+            Intent(context, LoginActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+        )
     }
 
-    private lateinit var binding: ActivityLoginBinding
+    private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
     private val viewModel by viewModel<LoginViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         initView()
@@ -34,32 +33,33 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun initView() {
-        binding.edtUserName.setText(viewModel.getUserName())
-        binding.edtPassword.setText(viewModel.getPassword())
+        with(binding) {
+            edtUserName.setText(viewModel.getUserName())
+            edtPassword.setText(viewModel.getPassword())
+        }
     }
 
     override fun initClick() {
-        binding.lblForgetPassword.setOnClickListener {
-            viewModel.onForgetPassWd()
-        }
+        with(binding) {
+            lblForgetPassword.setOnClickListener { viewModel.onForgetPassWd() }
 
-        binding.btnLogin.setOnClickListener {
-            viewModel.onLoginClicked(
-                binding.edtUserName.text.toString(),
-                binding.edtPassword.text.toString()
-            )
+            btnLogin.setOnClickListener {
+                viewModel.onLoginClicked(
+                    edtUserName.text.toString(),
+                    edtPassword.text.toString()
+                )
+            }
         }
     }
 
     private fun observer() {
-        viewModel.toastMsg.observe(this) {
-            showToast(it)
-        }
-
-        viewModel.login.observe(this) {
-            if (it) {
-                MainActivity.start(this@LoginActivity)
-                viewModel.login.value = false
+        with(viewModel) {
+            toastMsg.observe(this@LoginActivity) { showToast(it) }
+            login.observe(this@LoginActivity) {
+                if (it) {
+                    MainActivity.start(this@LoginActivity)
+                    setLogin()
+                }
             }
         }
     }
