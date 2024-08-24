@@ -6,27 +6,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.architecture.databinding.ListRoomUsersBinding
 import com.architecture.wrapper.User
 
-class RoomAdapter(
-    private val listener: AdapterClickListener
-) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
+class RoomAdapter(private val listener: AdapterClickListener) :
+    RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
 
-    private val userList: MutableList<User> = mutableListOf()
+    private var userList = listOf<User>() // Use immutable list
 
-    class ViewHolder(var binding: ListRoomUsersBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ListRoomUsersBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListRoomUsersBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding =
+            ListRoomUsersBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     fun setItems(listItems: List<User>) {
-        userList.clear()
-        userList.addAll(listItems)
+        userList = listItems // Directly assign the new list
         notifyDataSetChanged()
     }
 
@@ -34,17 +28,11 @@ class RoomAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = userList[position]
-        holder.binding.tvName.text = item.name
-        holder.binding.root.setOnClickListener {
-            listener.onViewClick(item)
-        }
-
-        holder.binding.ivEdit.setOnClickListener {
-            listener.onEditClick(item)
-        }
-
-        holder.binding.ivDelete.setOnClickListener {
-            listener.onDeleteClick(item)
+        with(holder.binding) {
+            tvName.text = item.name
+            root.setOnClickListener { listener.onViewClick(item) }
+            ivEdit.setOnClickListener { listener.onEditClick(item) }
+            ivDelete.setOnClickListener { listener.onDeleteClick(item) }
         }
     }
 }

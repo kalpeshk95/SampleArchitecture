@@ -8,23 +8,17 @@ import com.architecture.wrapper.Employee
 
 class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
-    private val employeeList: MutableList<Employee> = mutableListOf()
+    private var employeeList = listOf<Employee>()
 
-    class ViewHolder(var binding: ListDashboardBinding) :
-        RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: ListDashboardBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ListDashboardBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
+        val binding = ListDashboardBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     fun setItems(listItems: List<Employee>) {
-        employeeList.clear()
-        employeeList.addAll(listItems)
+        employeeList = listItems
         notifyDataSetChanged()
     }
 
@@ -32,10 +26,11 @@ class MenuAdapter : RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = employeeList[position]
-        holder.binding.tvId.text = item.id.toString()
-        holder.binding.tvName.text = item.name
-        holder.binding.tvCompany.text = item.company
-        holder.binding.tvMob.text = item.number
-
+        with(holder.binding) {
+            tvId.text = item.id
+            tvName.text = item.name
+            tvCompany.text = item.company
+            tvMob.text = item.number
+        }
     }
 }

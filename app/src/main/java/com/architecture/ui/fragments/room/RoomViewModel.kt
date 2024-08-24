@@ -11,105 +11,85 @@ import kotlinx.coroutines.launch
 
 class RoomViewModel(private val roomRepository: RoomRepository) : BaseViewModel() {
 
-    var name = MutableLiveData("")
-    var age = MutableLiveData("")
-    var salary = MutableLiveData("")
+    enum class Action {
+        ADD,
+        UPDATE,
+        DELETE,
+        DELETE_ALL
+    }
 
-    val user = User()
-    var usersList: LiveData<List<User>>? = null
-    var flagDialog = MutableLiveData<Boolean>()
+    val name = MutableLiveData("")
+    val age = MutableLiveData("")
+    val salary = MutableLiveData("")
+
+    private val user = User()
+    val usersList: LiveData<List<User>> = roomRepository.getAll() // Directly assign LiveData
+    val flagDialog = MutableLiveData<Boolean>()
 
     private val _showLoader = MutableLiveData<Boolean>()
     val showLoader: LiveData<Boolean> = _showLoader
 
-    init {
-        usersList = roomRepository.getAll()
-    }
+    fun addUpdateUser(isAdding: Boolean) {
+        val userName = name.value.orEmpty()
+        val userAge = age.value.orEmpty()
+        val userSalary = salary.value.orEmpty()
 
-    fun addUpdateUser(flag: Boolean) {
-
-        if (name.value?.length == 0) {
-            toastMsg.value = "First name is blank"
+        if (userName.isBlank() || userAge.isBlank() || userSalary.isBlank()) {
+            toastMsg.value = "Please fill in all fields"
             return
-        } else if (age.value?.length == 0) {
-            toastMsg.value = "Age is blank"
-            return
-        } else if (salary.value?.length == 0) {
-            toastMsg.value = "Salary is blank"
-            return
-        } else {
+        }
 
-            user.name = name.value!!
-            user.age = age.value!!.toInt()
-            user.salary = salary.value!!.toInt()
+        user.name = userName
+        user.age = userAge.toIntOrNull() ?: 0
+        user.salary = userSalary.toIntOrNull() ?: 0
 
-            if (flag) {
-                viewModelScope.launch {
-                    when (val result = roomRepository.insert(user)) {
-                        is Result.Loading -> {
-                            _showLoader.value = true
-                        }
-                        is Result.Success -> {
-                            _showLoader.value = false
-                            toastMsg.value = "User ${result.data.name} added successfully"
-                            flagDialog.value = true
-                        }
-                        is Result.Error -> {
-                            _showLoader.value = false
-                            toastMsg.value = "Error adding user: ${result.exception.message}"
-                        }
-                    }
-                }
-            } else {
-                viewModelScope.launch {
-                    when (val result = roomRepository.update(user)) {
-                        is Result.Loading -> {
-                            _showLoader.value = true
-                        }
-                        is Result.Success -> {
-                            _showLoader.value = false
-                            toastMsg.value = "User ${result.data.name} updated successfully"
-                            flagDialog.value = true
-                        }
-                        is Result.Error -> {
-                            _showLoader.value = false
-                            toastMsg.value = "Error updating user: ${result.exception.message}"
-                        }
-                    }
-                }
-            }
+        viewModelScope.launch {
+            _showLoader.value = true
+            val result = if (isAdding) roomRepository.insert(user) else roomRepository.update(user)
+            handleResult(result, if (isAdding) Action.ADD else Action.UPDATE)
+            _showLoader.value = false
         }
     }
 
     fun delete(user: User) = viewModelScope.launch {
-        when (val result = roomRepository.delete(user)) {
-            is Result.Loading -> {
-                _showLoader.value = true
-            }
-            is Result.Success -> {
-                _showLoader.value = false
-                toastMsg.value = "User ${result.data.name} deleted successfully"
-            }
-            is Result.Error -> {
-                _showLoader.value = false
-                toastMsg.value = "Error deleting user: ${result.exception.message}"
-            }
-        }
+        _showLoader.value = true
+        handleResult(roomRepository.delete(user), Action.DELETE)
+        _showLoader.value = false
     }
 
     fun deleteAll() = viewModelScope.launch {
-        when (val result = roomRepository.deleteAll()) {
-            is Result.Loading -> {
-                _showLoader.value = true
-            }
+        _showLoader.value = true
+        handleResult(roomRepository.deleteAll(), Action.DELETE_ALL)
+        _showLoader.value = false
+    }
+
+    private fun handleResult(result: Result<Any>, action: Action) {
+        when (result) {
             is Result.Success -> {
-                _showLoader.value = false
-                toastMsg.value = result.data
+                if (result.data is String) {
+                    toastMsg.value = result.data
+                } else {
+                    val user = result.data as User
+                    toastMsg.value = when (action) {
+                        Action.ADD -> "User ${user.name} added successfully"
+                        Action.UPDATE -> "User ${user.name} updated successfully"
+                        Action.DELETE -> "User ${user.name} deleted successfully"
+                        else -> ""
+                    }
+                }
+                flagDialog.value = true
             }
+
             is Result.Error -> {
-                _showLoader.value = false
-                toastMsg.value = "Error deleting records: ${result.exception.message}"
+                toastMsg.value = when (action) {
+                    Action.ADD -> "Error adding user: ${result.exception.message}"
+                    Action.UPDATE -> "Error updating user: ${result.exception.message}"
+                    Action.DELETE -> "Error deleting user: ${result.exception.message}"
+                    Action.DELETE_ALL -> "Error deleting all user: ${result.exception.message}"
+                }
             }
+            // No need to handle Result.Loading here as we're showing the loader externally
+            Result.Loading -> TODO()
         }
     }
 }

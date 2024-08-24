@@ -7,17 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.architecture.R
-import com.architecture.data.roomdb.Result
 import com.architecture.databinding.DialogAddUserBinding
 import com.architecture.databinding.DialogShowDetailsBinding
 import com.architecture.databinding.FragmentRoomBinding
 import com.architecture.ui.fragments.base.BaseFragment
-import com.architecture.utils.Constant
 import com.architecture.wrapper.User
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 
 class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener {
 
@@ -25,9 +21,8 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
     private val binding get() = _binding!!
 
     private val viewModel by viewModel<RoomViewModel>()
-
-    private lateinit var roomAdapter: RoomAdapter
-    private lateinit var dialog: Dialog
+    private val roomAdapter by lazy { RoomAdapter(this) }
+    private var dialog: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,55 +36,34 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
         super.onViewCreated(view, savedInstanceState)
         initView()
         initClick()
+        observer()
     }
 
     override fun initView() {
-
-        createAdapter()
-
-        viewModel.usersList?.observe(viewLifecycleOwner) {
-            roomAdapter.setItems(it)
-        }
-
-        viewModel.showLoader.observe(viewLifecycleOwner) {
-            progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
-        }
-
-        viewModel.toastMsg.observe(viewLifecycleOwner) { showToast(it) }
-
-        viewModel.flagDialog.observe(viewLifecycleOwner) {
-            if (it) {
-                dialog.let { dialog ->
-                    if (dialog.isShowing)
-                        dialog.cancel()
-                }
-            }
+        with(binding.recyclerList) {
+            layoutManager = LinearLayoutManager(context)
+            adapter = roomAdapter
         }
     }
 
     override fun initClick() {
+        binding.add.setOnClickListener { openDialog(true, null) }
+        binding.deleteAll.setOnClickListener { viewModel.deleteAll() }
+    }
 
-        binding.add.setOnClickListener {
-            openDialog(true, null)
-        }
-
-        binding.deleteAll.setOnClickListener {
-            viewModel.deleteAll()
+    private fun observer() {
+        with(viewModel) {
+            showLoader.observe(viewLifecycleOwner) {
+                progressBarVisibility?.setVisibility(if (it) View.VISIBLE else View.GONE)
+            }
+            usersList.observe(viewLifecycleOwner, roomAdapter::setItems)
+            toastMsg.observe(viewLifecycleOwner, ::showToast)
+            flagDialog.observe(viewLifecycleOwner) { if (it) dialog?.cancel() }
         }
     }
 
-    private fun createAdapter() {
-        roomAdapter = RoomAdapter(this)
-        binding.recyclerList.apply {
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-            this.adapter = roomAdapter
-        }
-    }
-
-    private fun openDialog(flag: Boolean, userUpdate: User?) {
-
-        val dialogBinding = DialogAddUserBinding.inflate(LayoutInflater.from(requireContext()))
-
+    private fun openDialog(isAdding: Boolean, userToUpdate: User?) {
+        val dialogBinding = DialogAddUserBinding.inflate(layoutInflater)
         dialog = Dialog(requireContext()).apply {
             setContentView(dialogBinding.root)
             window!!.setLayout(
@@ -100,66 +74,50 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
             setCancelable(true)
         }
 
-        if (flag) {
-            dialogBinding.run {
-                headerText.text = getString(R.string.add_user)
-                btnAddUpdate.text = getString(R.string.add)
-                edtName.setText(getString(R.string.empty_string))
-                edtAge.setText(getString(R.string.empty_string))
-                edtSalary.setText(getString(R.string.empty_string))
-            }
-        } else {
-            dialogBinding.run {
-                headerText.text = getString(R.string.update_user)
-                btnAddUpdate.text = getString(R.string.update)
+        with(dialogBinding) {
+            headerText.text = getString(if (isAdding) R.string.add_user else R.string.update_user)
+            btnAddUpdate.text = getString(if (isAdding) R.string.add else R.string.update)
+            if (!isAdding) {
                 edtName.isEnabled = false
-                edtName.setText(userUpdate!!.name)
-                edtAge.setText(userUpdate.age.toString())
-                edtSalary.setText(userUpdate.salary.toString())
+                userToUpdate?.let {
+                    edtName.setText(it.name)
+                    edtAge.setText(it.age.toString())
+                    edtSalary.setText(it.salary.toString())
+                }
             }
-        }
-
-        dialogBinding.btnAddUpdate.setOnClickListener {
-            viewModel.run {
-                name.value = dialogBinding.edtName.text.toString()
-                age.value = dialogBinding.edtAge.text.toString()
-                salary.value = dialogBinding.edtSalary.text.toString()
+            btnAddUpdate.setOnClickListener {
+                with(viewModel) {
+                    name.value = edtName.text.toString()
+                    age.value = edtAge.text.toString()
+                    salary.value = edtSalary.text.toString()
+                    addUpdateUser(isAdding)
+                }
             }
-            viewModel.addUpdateUser(flag)
+            btnCancel.setOnClickListener { dialog?.cancel() }
         }
-
-        dialogBinding.btnCancel.setOnClickListener {
-            dialog.cancel()
-        }
-
-        dialog.show()
+        dialog?.show()
     }
 
     override fun onViewClick(user: User) {
-        val showInfoBinding =
-            DialogShowDetailsBinding.inflate(LayoutInflater.from(requireContext()))
-        val showInfo = Dialog(requireContext()).apply {
+        val showInfoBinding = DialogShowDetailsBinding.inflate(layoutInflater)
+        Dialog(requireContext()).apply {
             setContentView(showInfoBinding.root)
             window!!.setLayout(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT
             )
             setCanceledOnTouchOutside(false)
+            show()
+            with(showInfoBinding) {
+                tvName.text = user.name
+                tvAge.text = user.age.toString()
+                tvSalary.text = user.salary.toString()
+                btnOk.setOnClickListener { dismiss() }
+            }
         }
-        showInfoBinding.tvName.text = user.name
-        showInfoBinding.tvAge.text = user.age.toString()
-        showInfoBinding.tvSalary.text = user.salary.toString()
-
-        showInfoBinding.btnOk.setOnClickListener {
-            showInfo.dismiss()
-        }
-        showInfo.show()
     }
 
-    override fun onEditClick(user: User) {
-        Timber.i(Constant.TAG, user.toString())
-        openDialog(false, user)
-    }
+    override fun onEditClick(user: User) = openDialog(false, user)
 
     override fun onDeleteClick(user: User) {
         viewModel.delete(user)
@@ -167,7 +125,6 @@ class RoomFragment : BaseFragment(R.layout.fragment_room), AdapterClickListener 
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+        dialog = null // Clear dialog reference to avoid leaks
     }
-
 }
