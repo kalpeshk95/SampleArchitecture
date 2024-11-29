@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface Network {
 
-    @GET("548c010d-1dfa-4530-bcbf-1db47828de61?mocky-delay=2s")
+    @GET("sample/employee")
     fun fetchEmployee(): LiveData<ApiResponse<List<Employee>>>
 }

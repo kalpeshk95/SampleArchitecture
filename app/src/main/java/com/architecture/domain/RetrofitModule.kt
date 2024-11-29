@@ -42,10 +42,7 @@ private fun getNetwork(retroFit: Retrofit): Network {
 fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
 
     return Retrofit.Builder()
-//            .baseUrl("http://www.mocky.io/v2/")
         .baseUrl(BuildConfig.BASE_URL)
-//        .addConverterFactory(MoshiConverterFactory.create())
-//        .addCallAdapterFactory(FlowCallAdapterFactory.create())
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .addCallAdapterFactory(LiveDataCallAdapterFactory())
