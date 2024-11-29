@@ -62,12 +62,14 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        imageFilePath = getExternalFilesDir(null)?.absolutePath + "/SampleArch/profile.jpg"
+
         initView()
         initClick()
     }
 
     override fun initView() {
-        imageFilePath = getExternalFilesDir(null)?.absolutePath + "/SampleArch/profile.jpg"
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         navController = navHostFragment.navController
@@ -277,28 +279,27 @@ class MainActivity : BaseActivity(), BaseFragment.ShowProgressBar {
         binding.drawerLayout.closeDrawers()
         navController.popBackStack(R.id.menuFragment, false)
         navController.navigate(
-            fragment, null,
-            NavOptions.Builder()
-                .setEnterAnim(R.anim.fade_in)
-                .build()
+            fragment,
+            null,
+            NavOptions.Builder().setEnterAnim(R.anim.fade_in).build()
         )
     }
 
     private fun showHeader(label: String?) {
-        with(binding.header) {
-            lblHeaderText.text = label
-            if (label == "Menu") {
-                backBtn.gone()
-            } else {
-                backBtn.visible()
-                binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            }
+        binding.header.lblHeaderText.text = label
+
+        // Use '==' for string comparison
+        if (label == "Menu") {
+            binding.header.backBtn.gone()
+        } else {
+            binding.header.backBtn.visible()
+            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED) // Combine with setDrawerState
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        binding.drawerLayout.closeDrawers()
+        binding.drawerLayout.closeDrawers() // Directly close the drawer
     }
     // endregion
 }

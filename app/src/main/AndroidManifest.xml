@@ -10,12 +10,14 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <!-- New media access permissions -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"
+    <uses-permission
+            android:name="android.permission.READ_MEDIA_IMAGES"
             tools:ignore="SelectedPhotoAccess" />
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
             android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    <uses-permission
+            android:name="android.permission.READ_EXTERNAL_STORAGE"
             android:maxSdkVersion="32" />
 
     <uses-feature
@@ -38,17 +40,14 @@
 
     <application
             android:name=".app.MyApplication"
-            android:allowBackup="false"
+            android:enableOnBackInvokedCallback="true"
             android:icon="@mipmap/ic_launcher"
             android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:usesCleartextTraffic="true"
-            tools:ignore="GoogleAppIndexingWarning">
-
-        <!-- This requestLegacyExternalStorage attribute is "false" by default on apps targeting
-     Android 10 or higher. -->
+            tools:ignore="GoogleAppIndexingWarning"
+            tools:targetApi="tiramisu">
 
         <activity
                 android:name=".ui.activity.login.LoginActivity"

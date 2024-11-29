@@ -1,18 +1,18 @@
 [versions]
-agp = "8.5.2"
-kotlin = "1.9.0"
+agp = "8.7.2"
+kotlin = "1.9.24"
 ksp = "1.9.0-1.0.13"
-coreKtx = "1.13.1"
+coreKtx = "1.15.0"
 appcompat = "1.7.0"
 material = "1.12.0"
 
 swiperefreshlayout = "1.1.0"
 timber = "5.0.1"
-navFragment = "2.7.7"
-lifeCycle = "2.8.4"
+navFragment = "2.8.4"
+lifeCycle = "2.8.7"
 room = "2.6.1"
 workManager = "2.9.1"
-koin = "2.2.3"
+koin = "3.5.3"
 retrofit2 = "2.11.0"
 okhttp3 = "4.12.0"
 
@@ -37,9 +37,7 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 
-androidx-koin-fragment = { group = "io.insert-koin", name = "koin-androidx-fragment", version.ref = "koin" }
-androidx-koin-scope = { group = "io.insert-koin", name = "koin-androidx-scope", version.ref = "koin" }
-androidx-koin-viewModel = { group = "io.insert-koin", name = "koin-androidx-viewmodel", version.ref = "koin" }
+android-koin = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 
 retrofit2-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit2" }
 retrofit2-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit2" }

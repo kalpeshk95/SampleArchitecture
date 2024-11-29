@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "com.architecture"
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig {
         applicationId = "com.architecture"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -37,19 +37,19 @@ android {
         create("dev") {
             dimension = "version"
             applicationIdSuffix = ".dev"
-            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://nhn76lvkmk.api.quickmocker.com/\"")
         }
         create("prod") {
             dimension = "version"
-            buildConfigField("String", "BASE_URL", "\"https://run.mocky.io/v3/\"")
+            buildConfigField("String", "BASE_URL", "\"https://nhn76lvkmk.api.quickmocker.com/\"")
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         buildConfig = true
@@ -83,9 +83,7 @@ dependencies {
     implementation(libs.androidx.work.runtime.ktx)
 
     //Koin
-    implementation(libs.androidx.koin.fragment)
-    implementation(libs.androidx.koin.scope)
-    implementation(libs.androidx.koin.viewModel)
+    implementation(libs.android.koin)
 
     // Retrofit dependencies
     implementation(libs.retrofit2.retrofit)
