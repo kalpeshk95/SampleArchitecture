@@ -1,66 +1,61 @@
-**Sample Architeture**
+# Sample Architecture
 
-This project is an Android application built with the following dependencies and plugins to ensure robust functionality and maintainability.
+This project is an Android application designed with a robust and maintainable architecture, leveraging modern libraries and tools for an efficient development experience.
 
-**Dependencies**
-**Core Dependencies**
-- Android Core KTX: androidx.core:core-ktx:1.15.0
-  - Provides Kotlin extensions for common Android framework APIs.
-- Android AppCompat: androidx.appcompat:appcompat:1.7.0
-  - Ensures backward compatibility of Android features.
-  
-**UI Components**
-- Material Components: com.google.android.material:material:1.12.0
-  - Implements Material Design UI components.
-- SwipeRefreshLayout: androidx.swiperefreshlayout:swiperefreshlayout:1.1.0
-  - Enables pull-to-refresh functionality.
-  
-**Logging**
-- Timber: com.jakewharton.timber:timber:5.0.1
-  - Simplifies logging operations.
-  
-**Navigation**
-- Navigation Fragment KTX: androidx.navigation:navigation-fragment-ktx:2.8.4
-- Navigation UI KTX: androidx.navigation:navigation-ui-ktx:2.8.4
-  - Handles navigation and user interface flow.
-  
-**Lifecycle Management**
-- Lifecycle ViewModel KTX: androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7
-- Lifecycle LiveData KTX: androidx.lifecycle:lifecycle-livedata-ktx:2.8.7
-  - Manages UI-related data in a lifecycle-conscious way.
-  
-**Data Persistence**
-- Room Runtime: androidx.room:room-runtime:2.6.1
-- Room KTX: androidx.room:room-ktx:2.6.1
-- Room Compiler: androidx.room:room-compiler:2.6.1
-  - Provides a SQLite database with an abstraction layer.
-  
-**Background Processing**
-- WorkManager: androidx.work:work-runtime-ktx:2.9.1
-  - Manages deferrable and asynchronous tasks.
-  
-**Dependency Injection**
-- Koin Android: io.insert-koin:koin-android:3.5.3
-  - A lightweight dependency injection framework.
-  
-**Networking**
-- Retrofit:
-  com.squareup.retrofit2:retrofit:2.11.0
-  com.squareup.retrofit2:converter-gson:2.11.0
-  com.squareup.retrofit2:adapter-rxjava3:2.11.0
-  Simplifies HTTP API integration.
-- OkHttp Logging Interceptor: com.squareup.okhttp3:logging-interceptor:4.12.0
-  - Logs HTTP request and response data.
-  
-**Plugins**
-**Android Application Plugin**
-- Android Application: com.android.application:8.7.2
-  - Applied to Android application projects.
-  
-**Kotlin Plugin**
-- Kotlin Android: org.jetbrains.kotlin.android:1.9.24
-  - Adds support for Kotlin language features.
-  
-**Kotlin Symbol Processing (KSP)**
-- KSP: com.google.devtools.ksp:1.9.0-1.0.13
-  - Provides Kotlin symbol processing capability.
+## Dependencies
+
+### Core Dependencies
+
+- **Android Core KTX** - Provides Kotlin extensions for common Android framework APIs. [Learn more](https://developer.android.com/kotlin/ktx)
+- **Android AppCompat** - Ensures backward compatibility of Android features. [Learn more](https://developer.android.com/jetpack/androidx/releases/appcompat)
+
+### UI Components
+
+- **Material Components** - Implements Material Design UI components. [Learn more](https://material.io/develop/android)
+- **SwipeRefreshLayout** - Enables pull-to-refresh functionality. [Learn more](https://developer.android.com/jetpack/androidx/releases/swiperefreshlayout)
+
+### Logging
+
+- **Timber** - Simplifies logging operations. [Learn more](https://github.com/JakeWharton/timber)
+
+### Navigation
+
+- **Navigation Component (Fragment & UI KTX)** - Handles navigation and user interface flow. [Learn more](https://developer.android.com/guide/navigation)
+
+### Lifecycle Management
+
+- **Lifecycle ViewModel KTX** - Manages UI-related data in a lifecycle-conscious way. [Learn more](https://developer.android.com/topic/libraries/architecture/viewmodel)
+- **Lifecycle LiveData KTX** - Ensures reactive UI updates. [Learn more](https://developer.android.com/topic/libraries/architecture/livedata)
+
+### Data Persistence
+
+- **Room Database (Runtime, KTX, Compiler)** - Provides an abstraction layer over SQLite for efficient data management. [Learn more](https://developer.android.com/training/data-storage/room)
+
+### Background Processing
+
+- **WorkManager** - Manages deferrable and asynchronous tasks. [Learn more](https://developer.android.com/topic/libraries/architecture/workmanager)
+
+### Dependency Injection
+
+- **Koin Android** - A lightweight dependency injection framework. [Learn more](https://insert-koin.io/docs/reference/koin-android/viewmodel/)
+
+### Networking
+
+- **Retrofit** - Simplifies HTTP API integration. [Learn more](https://square.github.io/retrofit/)
+- **OkHttp Logging Interceptor** - Logs HTTP request and response data. [Learn more](https://square.github.io/okhttp/features/interceptors/)
+
+## Plugins
+
+### Android Application Plugin
+
+- **Android Application** - Applied to Android application projects. [Learn more](https://developer.android.com/studio/build)
+
+### Kotlin Plugin
+
+- **Kotlin Android** - Adds support for Kotlin language features. [Learn more](https://kotlinlang.org/docs/android-overview.html)
+
+### Kotlin Symbol Processing (KSP)
+
+- **KSP** - Provides Kotlin symbol processing capability. [Learn more](https://github.com/google/ksp)
+
+This setup ensures a scalable, maintainable, and efficient Android application development process.
