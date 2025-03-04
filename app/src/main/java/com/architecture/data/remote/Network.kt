@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface Network {
 
-    @GET("sample/employee")
+    @GET("users")
     fun fetchEmployee(): LiveData<ApiResponse<List<Employee>>>
 }

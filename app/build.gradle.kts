@@ -37,11 +37,11 @@ android {
         create("dev") {
             dimension = "version"
             applicationIdSuffix = ".dev"
-            buildConfigField("String", "BASE_URL", "\"https://nhn76lvkmk.api.quickmocker.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://fake-json-api.mock.beeceptor.com/\"")
         }
         create("prod") {
             dimension = "version"
-            buildConfigField("String", "BASE_URL", "\"https://nhn76lvkmk.api.quickmocker.com/\"")
+            buildConfigField("String", "BASE_URL", "\"https://fake-json-api.mock.beeceptor.com/\"")
         }
     }
     compileOptions {

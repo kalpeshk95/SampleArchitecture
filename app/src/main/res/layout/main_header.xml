@@ -11,7 +11,7 @@
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/backBtn"
             android:layout_width="@dimen/dimen_56"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dimen_56"
             android:padding="@dimen/dimen_16"
             android:src="@drawable/arrow_white"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -36,7 +36,7 @@
     <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/menu"
             android:layout_width="@dimen/dimen_56"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/dimen_56"
             android:layout_gravity="center"
             android:padding="@dimen/dimen_16"
             android:src="@drawable/burger_menu"
