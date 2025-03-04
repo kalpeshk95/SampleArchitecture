@@ -34,7 +34,7 @@ class WorkFragment : BaseFragment(R.layout.fragment_work) {
     override fun initView() {
 
         viewModel.result?.observe(viewLifecycleOwner) {
-            binding.resultText.text = it.outputData.getInt(ThirdWorker.KEY, 0).toString()
+            binding.resultText.text = it?.outputData?.getInt(ThirdWorker.KEY, 0).toString()
         }
     }
 

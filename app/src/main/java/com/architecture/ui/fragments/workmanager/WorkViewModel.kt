@@ -16,7 +16,7 @@ class WorkViewModel(context: Context) : BaseViewModel() {
 
     val firstNumber = MutableLiveData("")
     val secondNumber = MutableLiveData("")
-    var result: LiveData<WorkInfo>? = null
+    var result: LiveData<WorkInfo?>? = null
     var list = LinkedList<OneTimeWorkRequest>()
 
     private val workManager: WorkManager = WorkManager.getInstance(context)
